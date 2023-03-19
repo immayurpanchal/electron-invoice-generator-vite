@@ -4,7 +4,7 @@ import Update from '@/components/update';
 import { Client } from 'pg';
 import './App.scss';
 import { Select } from 'antd';
-
+const { ipcRenderer } = window.require('electron');
 console.log('[App.tsx]', `Hello world from Electron ${process.versions.electron} ${process.versions.chrome}!`);
 
 const client = new Client({
@@ -14,6 +14,7 @@ const client = new Client({
 	password: 'test',
 	port: 5432,
 });
+
 await client.connect();
 
 function App() {
@@ -46,8 +47,13 @@ function App() {
 		setValue(newValue);
 	};
 
+	const handlePrint = () => {
+		ipcRenderer.send('print-to-pdf');
+	};
+
 	return (
 		<div className='App'>
+			<button onClick={handlePrint}>Print</button>
 			<div>
 				<Select
 					value={value}
