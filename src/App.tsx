@@ -1,14 +1,51 @@
 import nodeLogo from './assets/node.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Update from '@/components/update';
+import { Client } from 'pg';
 import './App.scss';
 
-console.log('[App.tsx]', `Hello world from Electron ${process.versions.electron}!`);
+console.log('[App.tsx]', `Hello world from Electron ${process.versions.electron} ${process.versions.chrome}!`);
 
 function App() {
 	const [count, setCount] = useState(0);
+	const [dbData, setDbData] = useState([]);
+
+	useEffect(() => {
+		const client = new Client({
+			user: 'test',
+			host: 'localhost',
+			database: 'test',
+			password: 'test',
+			port: 5432,
+		});
+
+		client
+			.connect()
+			.then(() => console.log('Connected to PostgreSQL database'))
+			.catch((err) => console.error('Error connecting to PostgreSQL database:', err));
+
+		client
+			.query('SELECT * FROM products')
+			.then((res) => {
+				setDbData(res.rows);
+			})
+			.catch((err) => console.error('Error querying PostgreSQL database:', err));
+
+		return () => {
+			client.end();
+		};
+	}, []);
+
 	return (
 		<div className='App'>
+			<div>
+				<h1>PostgreSQL Database Data</h1>
+				<ul>
+					{dbData.map((row) => (
+						<li key={row.id}>{row.product_name}</li>
+					))}
+				</ul>
+			</div>
 			<div>
 				<a href='https://github.com/electron-vite/electron-vite-react' target='_blank'>
 					<img src='./electron-vite.svg' className='logo' alt='Electron + Vite logo' />
