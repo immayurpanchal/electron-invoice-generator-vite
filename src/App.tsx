@@ -19,20 +19,25 @@ function App() {
 			port: 5432,
 		});
 
-		client
-			.connect()
-			.then(() => console.log('Connected to PostgreSQL database'))
-			.catch((err) => console.error('Error connecting to PostgreSQL database:', err));
+		const fetchData = async () => {
+			try {
+				await client.connect();
+				console.log('Connected to PostgreSQL database');
 
-		client
-			.query('SELECT * FROM products')
-			.then((res) => {
+				const res = await client.query('SELECT * FROM products');
 				setDbData(res.rows);
-			})
-			.catch((err) => console.error('Error querying PostgreSQL database:', err));
+			} catch (err) {
+				console.error('Error querying PostgreSQL database:', err);
+			} finally {
+				console.log('return called');
+				await client.end();
+			}
+		};
+
+		fetchData();
 
 		return () => {
-			client.end();
+			console.log('Cleanup function called');
 		};
 	}, []);
 
