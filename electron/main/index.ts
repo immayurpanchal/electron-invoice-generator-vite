@@ -122,20 +122,5 @@ ipcMain.handle('open-win', (_, arg) => {
 });
 
 ipcMain.on('print-to-pdf', async (event) => {
-	const pdfPath = join(app.getPath('documents'), 'print.pdf');
-	const options = {
-		landscape: false,
-		marginsType: 0,
-		printBackground: true,
-		printSelectionOnly: false,
-		pageSize: 'A4',
-	};
-
-	try {
-		const data = await win.webContents.printToPDF(options);
-		await promises.writeFile(pdfPath, data);
-		event.sender.send('print-to-pdf-reply', pdfPath);
-	} catch (error) {
-		console.error(error);
-	}
+	win.webContents.executeJavaScript('window.print();');
 });
