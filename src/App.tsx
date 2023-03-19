@@ -1,12 +1,12 @@
-import './App.scss';
-import SalesInvoice from './components/SalesInvoice/SalesInvoice';
+import './App.scss'
+import SalesInvoice from './components/SalesInvoice/SalesInvoice'
 
 function App() {
-	return (
-		<div className='App'>
-			<SalesInvoice />
-		</div>
-	);
+  return (
+    <div className='App'>
+      <SalesInvoice />
+    </div>
+  )
 }
 
-export default App;
+export default App

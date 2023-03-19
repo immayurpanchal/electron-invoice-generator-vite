@@ -16,24 +16,26 @@ export default defineConfig(({ command }) => {
   return {
     resolve: {
       alias: {
-        '@': path.join(__dirname, 'src')
+        '@': path.join(__dirname, 'src'),
       },
     },
     plugins: [
       react(),
       electron({
-        include: [
-          'electron'
-        ],
+        include: ['electron'],
         transformOptions: {
           sourcemap,
         },
         plugins: [
           ...(!!process.env.VSCODE_DEBUG
             ? [
-              // Will start Electron via VSCode Debug
-              customStart(() => console.log(/* For `.vscode/.debug.script.mjs` */'[startup] Electron App')),
-            ]
+                // Will start Electron via VSCode Debug
+                customStart(() =>
+                  console.log(
+                    /* For `.vscode/.debug.script.mjs` */ '[startup] Electron App'
+                  )
+                ),
+              ]
             : []),
           // Allow use `import.meta.env.VITE_SOME_KEY` in Electron-Main
           loadViteEnv(),
@@ -44,13 +46,15 @@ export default defineConfig(({ command }) => {
         nodeIntegration: true,
       }),
     ],
-    server: !!process.env.VSCODE_DEBUG ? (() => {
-      const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL)
-      return {
-        host: url.hostname,
-        port: +url.port,
-      }
-    })() : undefined,
+    server: !!process.env.VSCODE_DEBUG
+      ? (() => {
+          const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL)
+          return {
+            host: url.hostname,
+            port: +url.port,
+          }
+        })()
+      : undefined,
     clearScreen: false,
   }
 })
