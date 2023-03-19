@@ -1,4 +1,5 @@
 import './App.scss';
+import SalesInvoice from './components/SalesInvoice/SalesInvoice';
 
 function App() {
 	return (
