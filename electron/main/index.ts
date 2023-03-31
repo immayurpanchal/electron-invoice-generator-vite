@@ -1,6 +1,8 @@
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, shell } from 'electron'
 import { release } from 'node:os'
 import { join } from 'node:path'
+import '../backend/api/products'
+import { prisma } from '../backend/api/shared/prismaClient'
 import { update } from './update'
 
 // The built directory structure
@@ -41,8 +43,21 @@ const preload = join(__dirname, '../preload/index.js')
 const url = process.env.VITE_DEV_SERVER_URL
 const indexHtml = join(process.env.DIST, 'index.html')
 
+async function connectDB() {
+  try {
+    await prisma.$connect()
+    console.log('Connected to PostgreSQL database!')
+    // migrateDatabase()
+  } catch (error) {
+    console.error('Error connecting to the database', error)
+    process.exit(1)
+  }
+}
+
 async function createWindow() {
   win = new BrowserWindow({
+    width: 1000,
+    height: 800,
     title: 'Main window',
     icon: join(process.env.PUBLIC, 'favicon.ico'),
     webPreferences: {
@@ -55,7 +70,10 @@ async function createWindow() {
     },
   })
 
-  if (process.env.VITE_DEV_SERVER_URL) { // electron-vite-vue#298
+  connectDB()
+
+  if (process.env.VITE_DEV_SERVER_URL) {
+    // electron-vite-vue#298
     win.loadURL(url)
     // Open devTool if the app is not packaged
     win.webContents.openDevTools()
@@ -118,4 +136,3 @@ ipcMain.handle('open-win', (_, arg) => {
     childWindow.loadFile(indexHtml, { hash: arg })
   }
 })
-
