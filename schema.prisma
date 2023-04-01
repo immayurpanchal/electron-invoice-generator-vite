@@ -4,8 +4,10 @@ datasource db {
 }
 
 model products {
-  id           Int    @id @default(autoincrement())
-  product_name String
+  id            Int    @id @default(autoincrement())
+  product_name  String
+  qty           Int
+  product_price Float
 }
 
 generator client {
