@@ -1,11 +1,12 @@
 import './App.scss'
-import ProductList from './components/Product'
+import DynamicTable from './components/DynamicTable'
 import SalesInvoice from './components/SalesInvoice/SalesInvoice'
-function App() {
+
+const App = () => {
   return (
     <div className='App'>
-      <ProductList />
-      <SalesInvoice />
+      {/* <SalesInvoice /> */}
+      <DynamicTable />
     </div>
   )
 }
