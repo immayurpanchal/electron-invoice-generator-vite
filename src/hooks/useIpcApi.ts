@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import { ipcRenderer } from 'electron'
 
-interface Response<T> {
+export interface IPCResponse<T> {
   data: T | null
   error: Error | null
   isLoading: boolean
 }
 
-export const useIpcApi = <T,>(channel: string, args?: any): Response<T> => {
+export const useIpcApi = <T>(channel: string, args?: any): IPCResponse<T> => {
   const [data, setData] = useState<T | null>(null)
   const [error, setError] = useState<Error | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
