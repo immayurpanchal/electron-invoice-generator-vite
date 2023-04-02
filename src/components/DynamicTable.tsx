@@ -11,6 +11,14 @@ interface Product {
   product_price: number
 }
 
+interface BillProduct {
+  key: number
+  srNo: number
+  name: string
+  qty: number
+  price: number
+}
+
 const DynamicTable: React.FC = () => {
   const {
     data: apiData,
@@ -20,7 +28,7 @@ const DynamicTable: React.FC = () => {
   const [qty, setQty] = useState<number>(1)
   const [price, setPrice] = useState<number>(0.0)
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
-  const [billProducts, setBillProducts] = useState([])
+  const [billProducts, setBillProducts] = useState<BillProduct[]>([])
 
   const columns = [
     { title: 'Sr.No.', dataIndex: 'srNo', key: 'srNo' },
@@ -53,22 +61,41 @@ const DynamicTable: React.FC = () => {
     setPrice(product.product_price)
   }
 
+  const onAutoCompleteSearch = () => {
+    setSelectedProduct(null)
+  }
+
   const onQtyChange = (e) => {
     setQty(e.target.value)
   }
 
   const onAdd = () => {
-    const newBillProducts = [
-      ...billProducts,
-      {
-        key: selectedProduct.id,
-        srNo: billProducts.length + 1,
-        name: selectedProduct.product_name,
-        qty,
-        price,
-      },
-    ]
-    setBillProducts(newBillProducts)
+    let newBillProducts: BillProduct[] = []
+    const index = billProducts.findIndex(
+      (dataSourceProduct) => dataSourceProduct.key === selectedProduct?.id
+    )
+
+    if (index !== -1) {
+      // duplicate found
+      newBillProducts = [...billProducts]
+      const existingProduct = newBillProducts[index]
+      existingProduct.qty = +existingProduct.qty + selectedProduct?.qty
+      existingProduct.price =
+        existingProduct.qty * selectedProduct?.product_price
+      setBillProducts(newBillProducts)
+    } else {
+      newBillProducts = [
+        ...billProducts,
+        {
+          key: selectedProduct.id,
+          srNo: billProducts.length + 1,
+          name: selectedProduct.product_name,
+          qty,
+          price,
+        },
+      ]
+      setBillProducts(newBillProducts)
+    }
   }
 
   useEffect(() => {
@@ -85,7 +112,7 @@ const DynamicTable: React.FC = () => {
       <Row gutter={16}>
         <Col span={12}>
           <AutoComplete
-            value={selectedProduct?.product_name}
+            defaultActiveFirstOption
             style={{ width: '100%' }}
             options={getAutoCompleteOptions()}
             filterOption={(inputValue, option) => {
@@ -94,6 +121,7 @@ const DynamicTable: React.FC = () => {
                 .includes(inputValue.toLowerCase())
             }}
             onSelect={onAutoCompleteSelect}
+            onSearch={onAutoCompleteSearch}
             placeholder='Search Product'
           />
         </Col>
