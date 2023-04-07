@@ -1,6 +1,6 @@
 import { useIpcApi } from '@/hooks/useIpcApi'
-import { AutoComplete, InputNumber, Input, Table } from 'antd'
-import { ColumnType } from 'antd/es/table'
+import { AutoComplete, Input, InputNumber, Table } from 'antd'
+import { ColumnsType } from 'antd/es/table'
 import { nanoid } from 'nanoid'
 import { useEffect, useState } from 'react'
 
@@ -46,14 +46,14 @@ const SalesTable: React.FC = () => {
   }
 
   const handleAutoCompleteSelect = (
-    value: string,
+    _value: string,
     selectedProduct: Product,
     index: number
   ) => {
     const { id, product_name, product_price, qty } = selectedProduct
 
     const updatedDataSource = dataSource.map(
-      (item, dsIndex): BillTableProduct => {
+      (item, dsIndex): BillTableProduct | BillTable => {
         if (dsIndex === index) {
           return {
             ...item,
@@ -70,7 +70,8 @@ const SalesTable: React.FC = () => {
     setDataSource(updatedDataSource)
   }
 
-  const cols: ColumnType<BillTable> = [
+  // The type is for single column object type of dataSource[]
+  const columns: ColumnsType<BillTable | (BillTable & Product)> = [
     {
       title: 'Sr.No.',
       render: (_: any, __: any, index: number) => index + 1,
@@ -78,7 +79,8 @@ const SalesTable: React.FC = () => {
     {
       title: 'Product Name',
       dataIndex: 'product_name',
-      render: (value, record, index) => {
+      // prefix argument with _ if that is not being used in the function
+      render: (_value, _record, index) => {
         return (
           <AutoComplete
             defaultActiveFirstOption
@@ -101,7 +103,7 @@ const SalesTable: React.FC = () => {
     {
       title: 'Qty',
       dataIndex: 'qty',
-      render: (value, record, index) => {
+      render: (_value, record, index) => {
         return (
           <InputNumber
             disabled={!record.bill_price}
@@ -119,7 +121,9 @@ const SalesTable: React.FC = () => {
                   return {
                     ...currItem,
                     qty: currentQty,
-                    bill_price: currentQty * currItem.product_price,
+                    bill_price: +(
+                      currentQty * (currItem as BillTableProduct).product_price
+                    ).toFixed(2),
                   }
                 }
                 return currItem
@@ -142,10 +146,10 @@ const SalesTable: React.FC = () => {
 
   return (
     <Table
-      columns={cols}
+      columns={columns}
       dataSource={dataSource}
       pagination={false}
-      scroll={{ y: 300 }}
+      scroll={{ y: 600 }}
     />
   )
 }
