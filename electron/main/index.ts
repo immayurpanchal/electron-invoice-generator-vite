@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain, shell } from 'electron'
-import { release } from 'node:os'
+import { release, tmpdir } from 'node:os'
+import { writeFile } from 'node:fs'
 import { join } from 'node:path'
 import '../backend/api/products'
 import { prisma } from '../backend/api/shared/prismaClient'
@@ -135,4 +136,33 @@ ipcMain.handle('open-win', (_, arg) => {
   } else {
     childWindow.loadFile(indexHtml, { hash: arg })
   }
+})
+
+// Handle the print-preview event from the renderer process
+ipcMain.on('print-preview', (event) => {
+  // Capture the current window's contents as a PDF
+  win.webContents
+    .printToPDF({
+      pageSize: 'A4',
+      landscape: true,
+      margins: {
+        bottom: 0,
+        left: 0,
+        right: 0,
+        top: 0,
+      },
+      scale: 0.5,
+    })
+    .then((data: any, err: any) => {
+      if (err) throw err
+
+      // Create a temporary PDF file
+      const pdfPath = join(tmpdir(), 'print_preview.pdf')
+      writeFile(pdfPath, data, (error) => {
+        if (error) throw error
+
+        // Open the PDF in the default PDF viewer on macOS
+        shell.openExternal('file://' + pdfPath)
+      })
+    })
 })
