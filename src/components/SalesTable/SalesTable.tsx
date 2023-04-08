@@ -1,8 +1,11 @@
+import { BillContext, BillContextType } from '@/App'
 import { useIpcApi } from '@/hooks/useIpcApi'
-import { AutoComplete, Input, InputNumber, Table } from 'antd'
+import { AutoComplete, Button, Input, InputNumber, Table } from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import { nanoid } from 'nanoid'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import TableFooter from '../TableFooter/TableFooter'
 
 interface Product {
   id: number
@@ -16,7 +19,7 @@ interface BillTable {
   bill_price: number
 }
 
-interface BillTableProduct extends BillTable, Product {}
+export interface BillTableProduct extends BillTable, Product {}
 
 interface AutoCompleteProductOption {
   value: string
@@ -29,6 +32,8 @@ export const getDummyRow = (): BillTable => {
 
 const SalesTable: React.FC = () => {
   const { data: apiData } = useIpcApi<Product[]>('getProducts')
+  const navigate = useNavigate()
+  const { setBillValue } = useContext<BillContextType>(BillContext)
   const [dataSource, setDataSource] = useState<
     (BillTable | (BillTable & Product))[]
   >([])
@@ -144,12 +149,30 @@ const SalesTable: React.FC = () => {
     },
   ]
 
+  const handleSaveAndPrint = () => {
+    const formattedBillData = dataSource.map((item) => {
+      const { bill_price, product_name, product_price, qty, id, key } =
+        item as BillTableProduct
+      return {
+        product_name,
+        product_price,
+        qty,
+        id,
+        bill_price,
+        key,
+      }
+    })
+    setBillValue(formattedBillData)
+    navigate('/sales-print')
+  }
+
   return (
     <Table
       columns={columns}
       dataSource={dataSource}
       pagination={false}
       scroll={{ y: 600 }}
+      footer={() => <TableFooter handleSaveAndPrint={handleSaveAndPrint} />}
     />
   )
 }
