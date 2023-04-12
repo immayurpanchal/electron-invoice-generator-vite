@@ -1,0 +1,32 @@
+model Customer {
+  id            Int    @id @default(autoincrement())
+  name          String
+  contactNumber String
+  bills         Bill[]
+}
+
+model Bill {
+  id          Int           @id @default(autoincrement())
+  customer    Customer      @relation(fields: [customerId], references: [id])
+  products    ProductBill[]
+  totalAmount Float
+  customerId  Int
+}
+
+model Product {
+  id           Int           @id @default(autoincrement())
+  productName  String
+  qty          Int
+  productPrice Float
+  productBills ProductBill[]
+}
+
+model ProductBill {
+  id           Int     @id @default(autoincrement())
+  product      Product @relation(fields: [productId], references: [id])
+  bill         Bill    @relation(fields: [billId], references: [id])
+  qty          Int
+  productPrice Float
+  productId    Int
+  billId       Int
+}

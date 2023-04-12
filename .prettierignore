@@ -14,3 +14,4 @@ dist
 *.lock
 *.env
 *.env.local
+*.json5

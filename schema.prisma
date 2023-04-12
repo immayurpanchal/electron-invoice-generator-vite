@@ -1,5 +1,5 @@
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -13,4 +13,5 @@ model products {
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native"]
+  output        = "./resources"
 }

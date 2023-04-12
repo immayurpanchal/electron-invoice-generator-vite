@@ -1,6 +1,6 @@
 import { app, BrowserWindow, ipcMain, shell } from 'electron'
-import { release, tmpdir } from 'node:os'
-import { writeFile } from 'node:fs'
+import { appendFile } from 'node:fs'
+import { homedir, platform, release } from 'node:os'
 import { join } from 'node:path'
 import '../backend/api/products'
 import { prisma } from '../backend/api/shared/prismaClient'
@@ -21,6 +21,32 @@ process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
 process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL
   ? join(process.env.DIST_ELECTRON, '../public')
   : process.env.DIST
+
+const handleLogging = (err) => {
+  // Create log message
+  const logMessage = `Uncaught Exception: ${new Date().toISOString()} - ${
+    err.stack
+  }\n`
+
+  // Get desktop folder path based on operating system
+  const desktopPath =
+    platform() === 'win32'
+      ? join(homedir(), 'Desktop')
+      : join(homedir(), 'Desktop')
+
+  // Create or append to the log file
+  appendFile(join(desktopPath, 'mayur.log'), logMessage, (err) => {
+    if (err) {
+      console.error('Failed to write log:', err)
+    } else {
+      console.log('Log written successfully.')
+    }
+  })
+}
+
+process.on('uncaughtException', handleLogging)
+process.on('unhandledRejection', handleLogging)
+process.on('uncaughtExceptionMonitor', handleLogging)
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
@@ -139,30 +165,30 @@ ipcMain.handle('open-win', (_, arg) => {
 })
 
 // Handle the print-preview event from the renderer process
-ipcMain.on('print-preview', (event) => {
-  // Capture the current window's contents as a PDF
-  win.webContents
-    .printToPDF({
-      pageSize: 'A4',
-      landscape: true,
-      margins: {
-        bottom: 0,
-        left: 0,
-        right: 0,
-        top: 0,
-      },
-      scale: 0.5,
-    })
-    .then((data: any, err: any) => {
-      if (err) throw err
+// ipcMain.on('print-preview', (event) => {
+//   // Capture the current window's contents as a PDF
+//   win.webContents
+//     .printToPDF({
+//       pageSize: 'A4',
+//       landscape: true,
+//       margins: {
+//         bottom: 0,
+//         left: 0,
+//         right: 0,
+//         top: 0,
+//       },
+//       scale: 0.5,
+//     })
+//     .then((data: any, err: any) => {
+//       if (err) throw err
 
-      // Create a temporary PDF file
-      const pdfPath = join(tmpdir(), 'print_preview.pdf')
-      writeFile(pdfPath, data, (error) => {
-        if (error) throw error
+//       // Create a temporary PDF file
+//       const pdfPath = join(tmpdir(), 'print_preview.pdf')
+//       writeFile(pdfPath, data, (error) => {
+//         if (error) throw error
 
-        // Open the PDF in the default PDF viewer on macOS
-        shell.openExternal('file://' + pdfPath)
-      })
-    })
-})
+//         // Open the PDF in the default PDF viewer on macOS
+//         shell.openExternal('file://' + pdfPath)
+//       })
+//     })
+// })

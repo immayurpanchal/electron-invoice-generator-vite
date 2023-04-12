@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { createHashRouter, RouterProvider } from 'react-router-dom'
 import './App.scss'
-import SalesPrint from './components/SalesPrint/SalesPrint'
+import SalesPrint from '@/components/SalesPrint/SalesPrint'
 import SalesTable, {
   BillTableProduct,
 } from './components/SalesTable/SalesTable'
