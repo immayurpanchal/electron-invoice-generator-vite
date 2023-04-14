@@ -1,0 +1,53 @@
+//  @media print {
+
+//    /* Set page size to half of A4 (A5 size) */
+//    @page {
+//      size: A4;
+//    }
+
+
+//    /* Hide elements that you do not want to print */
+//    /* Example: hiding a div with the class "hidden-print" */
+//    .hidden-print {
+//      display: none;
+//    }
+
+
+//  }
+
+.print-preview {
+  /* Add the following CSS to rotate the content by 90 degrees */
+  transform: rotate(90deg);
+  transform-origin: top left;
+  width: 100vh;
+  /* Use the height of the page as the width to maintain aspect ratio */
+  height: 100vw;
+  /* Use the width of the page as the height to maintain aspect ratio */
+  page-break-inside: avoid;
+  /* Avoid page breaks within rotated content */
+}
+
+.a4-box {
+  box-sizing: border-box;
+  width: 210mm;
+  /* Set width to A4 paper width */
+  height: 297mm;
+  /* Set height to A4 paper height */
+  // background-color: orange;
+  /* Set background color to white */
+  // border: 1px solid #000;
+  /* Add a border for visual reference */
+}
+
+.a4-box-landscape {
+  box-sizing: border-box;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  width: 210mm;
+  height: 297mm;
+  background-color: pink;
+  border: 1px solid red;
+  transform: rotate(90deg) translateX(44mm);
+}

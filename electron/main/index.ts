@@ -1,6 +1,9 @@
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
-import { release } from 'node:os'
+import { app, BrowserWindow, ipcMain, shell } from 'electron'
+import { appendFile } from 'node:fs'
+import { homedir, platform, release } from 'node:os'
 import { join } from 'node:path'
+import '../backend/api/products'
+import { prisma } from '../backend/api/shared/prismaClient'
 import { update } from './update'
 
 // The built directory structure
@@ -18,6 +21,32 @@ process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
 process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL
   ? join(process.env.DIST_ELECTRON, '../public')
   : process.env.DIST
+
+const handleLogging = (err) => {
+  // Create log message
+  const logMessage = `Uncaught Exception: ${new Date().toISOString()} - ${
+    err.stack
+  }\n`
+
+  // Get desktop folder path based on operating system
+  const desktopPath =
+    platform() === 'win32'
+      ? join(homedir(), 'Desktop')
+      : join(homedir(), 'Desktop')
+
+  // Create or append to the log file
+  appendFile(join(desktopPath, 'mayur.log'), logMessage, (err) => {
+    if (err) {
+      console.error('Failed to write log:', err)
+    } else {
+      console.log('Log written successfully.')
+    }
+  })
+}
+
+process.on('uncaughtException', handleLogging)
+process.on('unhandledRejection', handleLogging)
+process.on('uncaughtExceptionMonitor', handleLogging)
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
@@ -41,8 +70,21 @@ const preload = join(__dirname, '../preload/index.js')
 const url = process.env.VITE_DEV_SERVER_URL
 const indexHtml = join(process.env.DIST, 'index.html')
 
+async function connectDB() {
+  try {
+    await prisma.$connect()
+    console.log('Connected to PostgreSQL database!')
+    // migrateDatabase()
+  } catch (error) {
+    console.error('Error connecting to the database', error)
+    process.exit(1)
+  }
+}
+
 async function createWindow() {
   win = new BrowserWindow({
+    width: 1000,
+    height: 800,
     title: 'Main window',
     icon: join(process.env.PUBLIC, 'favicon.ico'),
     webPreferences: {
@@ -55,7 +97,10 @@ async function createWindow() {
     },
   })
 
-  if (process.env.VITE_DEV_SERVER_URL) { // electron-vite-vue#298
+  connectDB()
+
+  if (process.env.VITE_DEV_SERVER_URL) {
+    // electron-vite-vue#298
     win.loadURL(url)
     // Open devTool if the app is not packaged
     win.webContents.openDevTools()
@@ -119,3 +164,31 @@ ipcMain.handle('open-win', (_, arg) => {
   }
 })
 
+// Handle the print-preview event from the renderer process
+// ipcMain.on('print-preview', (event) => {
+//   // Capture the current window's contents as a PDF
+//   win.webContents
+//     .printToPDF({
+//       pageSize: 'A4',
+//       landscape: true,
+//       margins: {
+//         bottom: 0,
+//         left: 0,
+//         right: 0,
+//         top: 0,
+//       },
+//       scale: 0.5,
+//     })
+//     .then((data: any, err: any) => {
+//       if (err) throw err
+
+//       // Create a temporary PDF file
+//       const pdfPath = join(tmpdir(), 'print_preview.pdf')
+//       writeFile(pdfPath, data, (error) => {
+//         if (error) throw error
+
+//         // Open the PDF in the default PDF viewer on macOS
+//         shell.openExternal('file://' + pdfPath)
+//       })
+//     })
+// })

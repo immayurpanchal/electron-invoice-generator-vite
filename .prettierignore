@@ -1,0 +1,17 @@
+# Directories
+node_modules
+build
+dist
+.out
+.vscode
+
+# Files
+*.log
+*.txt
+*.md
+*.yml
+*.yaml
+*.lock
+*.env
+*.env.local
+*.json5
