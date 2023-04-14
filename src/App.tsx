@@ -1,11 +1,14 @@
 import SalesPrint from '@/components/SalesPrint/SalesPrint'
+import SalesTable, {
+  BillTableProduct,
+} from '@/components/SalesTable/SalesTable'
 import { StyleProvider } from '@ant-design/cssinjs'
 import React, { useMemo, useState } from 'react'
 import { RouterProvider, createHashRouter } from 'react-router-dom'
 import './App.scss'
-import SalesTable, {
-  BillTableProduct,
-} from '@/components/SalesTable/SalesTable'
+import AddCustomer from './pages/AddCustomer'
+import AddProduct from './pages/AddProduct'
+import Home from './pages/Home'
 
 export const BillContext = React.createContext<BillContextType>({
   billValue: [],
@@ -18,12 +21,26 @@ export interface BillContextType {
 
 const router = createHashRouter([
   {
-    path: '/sales-print',
-    element: <SalesPrint />,
-  },
-  {
     path: '/',
-    element: <SalesTable />,
+    element: <Home />,
+    children: [
+      {
+        path: '/sales_invoice',
+        element: <SalesPrint />,
+      },
+      {
+        path: '/sales-table',
+        element: <SalesTable />,
+      },
+      {
+        path: 'add_product',
+        element: <AddProduct />,
+      },
+      {
+        path: '/add_customer',
+        element: <AddCustomer />,
+      },
+    ],
   },
 ])
 
