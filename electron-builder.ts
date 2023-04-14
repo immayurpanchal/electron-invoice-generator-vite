@@ -6,16 +6,10 @@ const config: Configuration = {
   directories: {
     output: 'release/${version}',
   },
-  extraResources: [
-    'node_modules/@prisma/engines/migration-engine*',
-    'node_modules/@prisma/engines/query*',
-    'node_modules/@prisma/engines/libquery*',
-  ],
   files: ['dist-electron', 'dist', 'resources'],
   mac: {
     artifactName: '${productName}_${version}.${ext}',
     target: ['dmg', 'zip'],
-    asarUnpack: 'prisma',
   },
   win: {
     target: [
@@ -25,6 +19,11 @@ const config: Configuration = {
       },
     ],
     artifactName: '${productName}_${version}.${ext}',
+  },
+  linux: {
+    target: ['AppImage', 'deb', 'rpm'],
+    artifactName: '${productName}_${version}.${ext}',
+    maintainer: 'Mayur Panchal',
   },
   nsis: {
     oneClick: false,
