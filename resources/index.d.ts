@@ -13,6 +13,28 @@ export type PrismaPromise<T> = runtime.Types.Public.PrismaPromise<T>
 
 
 /**
+ * Model bills
+ * 
+ */
+export type bills = {
+  id: number
+  customerId: number
+  date: Date
+}
+
+/**
+ * Model bill_items
+ * 
+ */
+export type bill_items = {
+  id: number
+  billId: number
+  productId: number
+  qty: number
+  price: number
+}
+
+/**
  * Model products
  * 
  */
@@ -20,7 +42,17 @@ export type products = {
   id: number
   product_name: string
   qty: number
-  product_price: number
+}
+
+/**
+ * Model customers
+ * 
+ */
+export type customers = {
+  id: number
+  name: string
+  city: string
+  mobileNumber: string
 }
 
 
@@ -31,8 +63,8 @@ export type products = {
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Products
- * const products = await prisma.products.findMany()
+ * // Fetch zero or more Bills
+ * const bills = await prisma.bills.findMany()
  * ```
  *
  * 
@@ -52,8 +84,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Products
-   * const products = await prisma.products.findMany()
+   * // Fetch zero or more Bills
+   * const bills = await prisma.bills.findMany()
    * ```
    *
    * 
@@ -142,6 +174,26 @@ export class PrismaClient<
   $transaction<R>(fn: (prisma: Omit<this, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use">) => Promise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<R>
 
       /**
+   * `prisma.bills`: Exposes CRUD operations for the **bills** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Bills
+    * const bills = await prisma.bills.findMany()
+    * ```
+    */
+  get bills(): Prisma.billsDelegate<GlobalReject>;
+
+  /**
+   * `prisma.bill_items`: Exposes CRUD operations for the **bill_items** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Bill_items
+    * const bill_items = await prisma.bill_items.findMany()
+    * ```
+    */
+  get bill_items(): Prisma.bill_itemsDelegate<GlobalReject>;
+
+  /**
    * `prisma.products`: Exposes CRUD operations for the **products** model.
     * Example usage:
     * ```ts
@@ -150,6 +202,16 @@ export class PrismaClient<
     * ```
     */
   get products(): Prisma.productsDelegate<GlobalReject>;
+
+  /**
+   * `prisma.customers`: Exposes CRUD operations for the **customers** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Customers
+    * const customers = await prisma.customers.findMany()
+    * ```
+    */
+  get customers(): Prisma.customersDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -619,7 +681,10 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    products: 'products'
+    bills: 'bills',
+    bill_items: 'bill_items',
+    products: 'products',
+    customers: 'customers'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -780,10 +845,2053 @@ export namespace Prisma {
    */
 
 
+  /**
+   * Count Type BillsCountOutputType
+   */
+
+
+  export type BillsCountOutputType = {
+    bill_items: number
+  }
+
+  export type BillsCountOutputTypeSelect = {
+    bill_items?: boolean
+  }
+
+  export type BillsCountOutputTypeGetPayload<S extends boolean | null | undefined | BillsCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? BillsCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (BillsCountOutputTypeArgs)
+    ? BillsCountOutputType 
+    : S extends { select: any } & (BillsCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof BillsCountOutputType ? BillsCountOutputType[P] : never
+  } 
+      : BillsCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * BillsCountOutputType without action
+   */
+  export type BillsCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the BillsCountOutputType
+     */
+    select?: BillsCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type ProductsCountOutputType
+   */
+
+
+  export type ProductsCountOutputType = {
+    bill_items: number
+  }
+
+  export type ProductsCountOutputTypeSelect = {
+    bill_items?: boolean
+  }
+
+  export type ProductsCountOutputTypeGetPayload<S extends boolean | null | undefined | ProductsCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? ProductsCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (ProductsCountOutputTypeArgs)
+    ? ProductsCountOutputType 
+    : S extends { select: any } & (ProductsCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof ProductsCountOutputType ? ProductsCountOutputType[P] : never
+  } 
+      : ProductsCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * ProductsCountOutputType without action
+   */
+  export type ProductsCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the ProductsCountOutputType
+     */
+    select?: ProductsCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type CustomersCountOutputType
+   */
+
+
+  export type CustomersCountOutputType = {
+    bills: number
+  }
+
+  export type CustomersCountOutputTypeSelect = {
+    bills?: boolean
+  }
+
+  export type CustomersCountOutputTypeGetPayload<S extends boolean | null | undefined | CustomersCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? CustomersCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (CustomersCountOutputTypeArgs)
+    ? CustomersCountOutputType 
+    : S extends { select: any } & (CustomersCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof CustomersCountOutputType ? CustomersCountOutputType[P] : never
+  } 
+      : CustomersCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * CustomersCountOutputType without action
+   */
+  export type CustomersCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the CustomersCountOutputType
+     */
+    select?: CustomersCountOutputTypeSelect | null
+  }
+
+
 
   /**
    * Models
    */
+
+  /**
+   * Model bills
+   */
+
+
+  export type AggregateBills = {
+    _count: BillsCountAggregateOutputType | null
+    _avg: BillsAvgAggregateOutputType | null
+    _sum: BillsSumAggregateOutputType | null
+    _min: BillsMinAggregateOutputType | null
+    _max: BillsMaxAggregateOutputType | null
+  }
+
+  export type BillsAvgAggregateOutputType = {
+    id: number | null
+    customerId: number | null
+  }
+
+  export type BillsSumAggregateOutputType = {
+    id: number | null
+    customerId: number | null
+  }
+
+  export type BillsMinAggregateOutputType = {
+    id: number | null
+    customerId: number | null
+    date: Date | null
+  }
+
+  export type BillsMaxAggregateOutputType = {
+    id: number | null
+    customerId: number | null
+    date: Date | null
+  }
+
+  export type BillsCountAggregateOutputType = {
+    id: number
+    customerId: number
+    date: number
+    _all: number
+  }
+
+
+  export type BillsAvgAggregateInputType = {
+    id?: true
+    customerId?: true
+  }
+
+  export type BillsSumAggregateInputType = {
+    id?: true
+    customerId?: true
+  }
+
+  export type BillsMinAggregateInputType = {
+    id?: true
+    customerId?: true
+    date?: true
+  }
+
+  export type BillsMaxAggregateInputType = {
+    id?: true
+    customerId?: true
+    date?: true
+  }
+
+  export type BillsCountAggregateInputType = {
+    id?: true
+    customerId?: true
+    date?: true
+    _all?: true
+  }
+
+  export type BillsAggregateArgs = {
+    /**
+     * Filter which bills to aggregate.
+     */
+    where?: billsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of bills to fetch.
+     */
+    orderBy?: Enumerable<billsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: billsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` bills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` bills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned bills
+    **/
+    _count?: true | BillsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BillsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BillsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BillsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BillsMaxAggregateInputType
+  }
+
+  export type GetBillsAggregateType<T extends BillsAggregateArgs> = {
+        [P in keyof T & keyof AggregateBills]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBills[P]>
+      : GetScalarType<T[P], AggregateBills[P]>
+  }
+
+
+
+
+  export type BillsGroupByArgs = {
+    where?: billsWhereInput
+    orderBy?: Enumerable<billsOrderByWithAggregationInput>
+    by: BillsScalarFieldEnum[]
+    having?: billsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BillsCountAggregateInputType | true
+    _avg?: BillsAvgAggregateInputType
+    _sum?: BillsSumAggregateInputType
+    _min?: BillsMinAggregateInputType
+    _max?: BillsMaxAggregateInputType
+  }
+
+
+  export type BillsGroupByOutputType = {
+    id: number
+    customerId: number
+    date: Date
+    _count: BillsCountAggregateOutputType | null
+    _avg: BillsAvgAggregateOutputType | null
+    _sum: BillsSumAggregateOutputType | null
+    _min: BillsMinAggregateOutputType | null
+    _max: BillsMaxAggregateOutputType | null
+  }
+
+  type GetBillsGroupByPayload<T extends BillsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<BillsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BillsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BillsGroupByOutputType[P]>
+            : GetScalarType<T[P], BillsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type billsSelect = {
+    id?: boolean
+    customerId?: boolean
+    date?: boolean
+    customer?: boolean | customersArgs
+    bill_items?: boolean | bills$bill_itemsArgs
+    _count?: boolean | BillsCountOutputTypeArgs
+  }
+
+
+  export type billsInclude = {
+    customer?: boolean | customersArgs
+    bill_items?: boolean | bills$bill_itemsArgs
+    _count?: boolean | BillsCountOutputTypeArgs
+  }
+
+  export type billsGetPayload<S extends boolean | null | undefined | billsArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? bills :
+    S extends undefined ? never :
+    S extends { include: any } & (billsArgs | billsFindManyArgs)
+    ? bills  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'customer' ? customersGetPayload<S['include'][P]> :
+        P extends 'bill_items' ? Array < bill_itemsGetPayload<S['include'][P]>>  :
+        P extends '_count' ? BillsCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (billsArgs | billsFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'customer' ? customersGetPayload<S['select'][P]> :
+        P extends 'bill_items' ? Array < bill_itemsGetPayload<S['select'][P]>>  :
+        P extends '_count' ? BillsCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof bills ? bills[P] : never
+  } 
+      : bills
+
+
+  type billsCountArgs = 
+    Omit<billsFindManyArgs, 'select' | 'include'> & {
+      select?: BillsCountAggregateInputType | true
+    }
+
+  export interface billsDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Bills that matches the filter.
+     * @param {billsFindUniqueArgs} args - Arguments to find a Bills
+     * @example
+     * // Get one Bills
+     * const bills = await prisma.bills.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends billsFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, billsFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'bills'> extends True ? Prisma__billsClient<billsGetPayload<T>> : Prisma__billsClient<billsGetPayload<T> | null, null>
+
+    /**
+     * Find one Bills that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {billsFindUniqueOrThrowArgs} args - Arguments to find a Bills
+     * @example
+     * // Get one Bills
+     * const bills = await prisma.bills.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends billsFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, billsFindUniqueOrThrowArgs>
+    ): Prisma__billsClient<billsGetPayload<T>>
+
+    /**
+     * Find the first Bills that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {billsFindFirstArgs} args - Arguments to find a Bills
+     * @example
+     * // Get one Bills
+     * const bills = await prisma.bills.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends billsFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, billsFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'bills'> extends True ? Prisma__billsClient<billsGetPayload<T>> : Prisma__billsClient<billsGetPayload<T> | null, null>
+
+    /**
+     * Find the first Bills that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {billsFindFirstOrThrowArgs} args - Arguments to find a Bills
+     * @example
+     * // Get one Bills
+     * const bills = await prisma.bills.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends billsFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, billsFindFirstOrThrowArgs>
+    ): Prisma__billsClient<billsGetPayload<T>>
+
+    /**
+     * Find zero or more Bills that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {billsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Bills
+     * const bills = await prisma.bills.findMany()
+     * 
+     * // Get first 10 Bills
+     * const bills = await prisma.bills.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const billsWithIdOnly = await prisma.bills.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends billsFindManyArgs>(
+      args?: SelectSubset<T, billsFindManyArgs>
+    ): Prisma.PrismaPromise<Array<billsGetPayload<T>>>
+
+    /**
+     * Create a Bills.
+     * @param {billsCreateArgs} args - Arguments to create a Bills.
+     * @example
+     * // Create one Bills
+     * const Bills = await prisma.bills.create({
+     *   data: {
+     *     // ... data to create a Bills
+     *   }
+     * })
+     * 
+    **/
+    create<T extends billsCreateArgs>(
+      args: SelectSubset<T, billsCreateArgs>
+    ): Prisma__billsClient<billsGetPayload<T>>
+
+    /**
+     * Delete a Bills.
+     * @param {billsDeleteArgs} args - Arguments to delete one Bills.
+     * @example
+     * // Delete one Bills
+     * const Bills = await prisma.bills.delete({
+     *   where: {
+     *     // ... filter to delete one Bills
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends billsDeleteArgs>(
+      args: SelectSubset<T, billsDeleteArgs>
+    ): Prisma__billsClient<billsGetPayload<T>>
+
+    /**
+     * Update one Bills.
+     * @param {billsUpdateArgs} args - Arguments to update one Bills.
+     * @example
+     * // Update one Bills
+     * const bills = await prisma.bills.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends billsUpdateArgs>(
+      args: SelectSubset<T, billsUpdateArgs>
+    ): Prisma__billsClient<billsGetPayload<T>>
+
+    /**
+     * Delete zero or more Bills.
+     * @param {billsDeleteManyArgs} args - Arguments to filter Bills to delete.
+     * @example
+     * // Delete a few Bills
+     * const { count } = await prisma.bills.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends billsDeleteManyArgs>(
+      args?: SelectSubset<T, billsDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Bills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {billsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Bills
+     * const bills = await prisma.bills.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends billsUpdateManyArgs>(
+      args: SelectSubset<T, billsUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Bills.
+     * @param {billsUpsertArgs} args - Arguments to update or create a Bills.
+     * @example
+     * // Update or create a Bills
+     * const bills = await prisma.bills.upsert({
+     *   create: {
+     *     // ... data to create a Bills
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Bills we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends billsUpsertArgs>(
+      args: SelectSubset<T, billsUpsertArgs>
+    ): Prisma__billsClient<billsGetPayload<T>>
+
+    /**
+     * Count the number of Bills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {billsCountArgs} args - Arguments to filter Bills to count.
+     * @example
+     * // Count the number of Bills
+     * const count = await prisma.bills.count({
+     *   where: {
+     *     // ... the filter for the Bills we want to count
+     *   }
+     * })
+    **/
+    count<T extends billsCountArgs>(
+      args?: Subset<T, billsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BillsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Bills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BillsAggregateArgs>(args: Subset<T, BillsAggregateArgs>): Prisma.PrismaPromise<GetBillsAggregateType<T>>
+
+    /**
+     * Group by Bills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BillsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BillsGroupByArgs['orderBy'] }
+        : { orderBy?: BillsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BillsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBillsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for bills.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__billsClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    customer<T extends customersArgs= {}>(args?: Subset<T, customersArgs>): Prisma__customersClient<customersGetPayload<T> | Null>;
+
+    bill_items<T extends bills$bill_itemsArgs= {}>(args?: Subset<T, bills$bill_itemsArgs>): Prisma.PrismaPromise<Array<bill_itemsGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * bills base type for findUnique actions
+   */
+  export type billsFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the bills
+     */
+    select?: billsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: billsInclude | null
+    /**
+     * Filter, which bills to fetch.
+     */
+    where: billsWhereUniqueInput
+  }
+
+  /**
+   * bills findUnique
+   */
+  export interface billsFindUniqueArgs extends billsFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * bills findUniqueOrThrow
+   */
+  export type billsFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the bills
+     */
+    select?: billsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: billsInclude | null
+    /**
+     * Filter, which bills to fetch.
+     */
+    where: billsWhereUniqueInput
+  }
+
+
+  /**
+   * bills base type for findFirst actions
+   */
+  export type billsFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the bills
+     */
+    select?: billsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: billsInclude | null
+    /**
+     * Filter, which bills to fetch.
+     */
+    where?: billsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of bills to fetch.
+     */
+    orderBy?: Enumerable<billsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for bills.
+     */
+    cursor?: billsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` bills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` bills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of bills.
+     */
+    distinct?: Enumerable<BillsScalarFieldEnum>
+  }
+
+  /**
+   * bills findFirst
+   */
+  export interface billsFindFirstArgs extends billsFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * bills findFirstOrThrow
+   */
+  export type billsFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the bills
+     */
+    select?: billsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: billsInclude | null
+    /**
+     * Filter, which bills to fetch.
+     */
+    where?: billsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of bills to fetch.
+     */
+    orderBy?: Enumerable<billsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for bills.
+     */
+    cursor?: billsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` bills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` bills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of bills.
+     */
+    distinct?: Enumerable<BillsScalarFieldEnum>
+  }
+
+
+  /**
+   * bills findMany
+   */
+  export type billsFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the bills
+     */
+    select?: billsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: billsInclude | null
+    /**
+     * Filter, which bills to fetch.
+     */
+    where?: billsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of bills to fetch.
+     */
+    orderBy?: Enumerable<billsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing bills.
+     */
+    cursor?: billsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` bills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` bills.
+     */
+    skip?: number
+    distinct?: Enumerable<BillsScalarFieldEnum>
+  }
+
+
+  /**
+   * bills create
+   */
+  export type billsCreateArgs = {
+    /**
+     * Select specific fields to fetch from the bills
+     */
+    select?: billsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: billsInclude | null
+    /**
+     * The data needed to create a bills.
+     */
+    data: XOR<billsCreateInput, billsUncheckedCreateInput>
+  }
+
+
+  /**
+   * bills update
+   */
+  export type billsUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the bills
+     */
+    select?: billsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: billsInclude | null
+    /**
+     * The data needed to update a bills.
+     */
+    data: XOR<billsUpdateInput, billsUncheckedUpdateInput>
+    /**
+     * Choose, which bills to update.
+     */
+    where: billsWhereUniqueInput
+  }
+
+
+  /**
+   * bills updateMany
+   */
+  export type billsUpdateManyArgs = {
+    /**
+     * The data used to update bills.
+     */
+    data: XOR<billsUpdateManyMutationInput, billsUncheckedUpdateManyInput>
+    /**
+     * Filter which bills to update
+     */
+    where?: billsWhereInput
+  }
+
+
+  /**
+   * bills upsert
+   */
+  export type billsUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the bills
+     */
+    select?: billsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: billsInclude | null
+    /**
+     * The filter to search for the bills to update in case it exists.
+     */
+    where: billsWhereUniqueInput
+    /**
+     * In case the bills found by the `where` argument doesn't exist, create a new bills with this data.
+     */
+    create: XOR<billsCreateInput, billsUncheckedCreateInput>
+    /**
+     * In case the bills was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<billsUpdateInput, billsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * bills delete
+   */
+  export type billsDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the bills
+     */
+    select?: billsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: billsInclude | null
+    /**
+     * Filter which bills to delete.
+     */
+    where: billsWhereUniqueInput
+  }
+
+
+  /**
+   * bills deleteMany
+   */
+  export type billsDeleteManyArgs = {
+    /**
+     * Filter which bills to delete
+     */
+    where?: billsWhereInput
+  }
+
+
+  /**
+   * bills.bill_items
+   */
+  export type bills$bill_itemsArgs = {
+    /**
+     * Select specific fields to fetch from the bill_items
+     */
+    select?: bill_itemsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: bill_itemsInclude | null
+    where?: bill_itemsWhereInput
+    orderBy?: Enumerable<bill_itemsOrderByWithRelationInput>
+    cursor?: bill_itemsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Bill_itemsScalarFieldEnum>
+  }
+
+
+  /**
+   * bills without action
+   */
+  export type billsArgs = {
+    /**
+     * Select specific fields to fetch from the bills
+     */
+    select?: billsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: billsInclude | null
+  }
+
+
+
+  /**
+   * Model bill_items
+   */
+
+
+  export type AggregateBill_items = {
+    _count: Bill_itemsCountAggregateOutputType | null
+    _avg: Bill_itemsAvgAggregateOutputType | null
+    _sum: Bill_itemsSumAggregateOutputType | null
+    _min: Bill_itemsMinAggregateOutputType | null
+    _max: Bill_itemsMaxAggregateOutputType | null
+  }
+
+  export type Bill_itemsAvgAggregateOutputType = {
+    id: number | null
+    billId: number | null
+    productId: number | null
+    qty: number | null
+    price: number | null
+  }
+
+  export type Bill_itemsSumAggregateOutputType = {
+    id: number | null
+    billId: number | null
+    productId: number | null
+    qty: number | null
+    price: number | null
+  }
+
+  export type Bill_itemsMinAggregateOutputType = {
+    id: number | null
+    billId: number | null
+    productId: number | null
+    qty: number | null
+    price: number | null
+  }
+
+  export type Bill_itemsMaxAggregateOutputType = {
+    id: number | null
+    billId: number | null
+    productId: number | null
+    qty: number | null
+    price: number | null
+  }
+
+  export type Bill_itemsCountAggregateOutputType = {
+    id: number
+    billId: number
+    productId: number
+    qty: number
+    price: number
+    _all: number
+  }
+
+
+  export type Bill_itemsAvgAggregateInputType = {
+    id?: true
+    billId?: true
+    productId?: true
+    qty?: true
+    price?: true
+  }
+
+  export type Bill_itemsSumAggregateInputType = {
+    id?: true
+    billId?: true
+    productId?: true
+    qty?: true
+    price?: true
+  }
+
+  export type Bill_itemsMinAggregateInputType = {
+    id?: true
+    billId?: true
+    productId?: true
+    qty?: true
+    price?: true
+  }
+
+  export type Bill_itemsMaxAggregateInputType = {
+    id?: true
+    billId?: true
+    productId?: true
+    qty?: true
+    price?: true
+  }
+
+  export type Bill_itemsCountAggregateInputType = {
+    id?: true
+    billId?: true
+    productId?: true
+    qty?: true
+    price?: true
+    _all?: true
+  }
+
+  export type Bill_itemsAggregateArgs = {
+    /**
+     * Filter which bill_items to aggregate.
+     */
+    where?: bill_itemsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of bill_items to fetch.
+     */
+    orderBy?: Enumerable<bill_itemsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: bill_itemsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` bill_items from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` bill_items.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned bill_items
+    **/
+    _count?: true | Bill_itemsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Bill_itemsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Bill_itemsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Bill_itemsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Bill_itemsMaxAggregateInputType
+  }
+
+  export type GetBill_itemsAggregateType<T extends Bill_itemsAggregateArgs> = {
+        [P in keyof T & keyof AggregateBill_items]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBill_items[P]>
+      : GetScalarType<T[P], AggregateBill_items[P]>
+  }
+
+
+
+
+  export type Bill_itemsGroupByArgs = {
+    where?: bill_itemsWhereInput
+    orderBy?: Enumerable<bill_itemsOrderByWithAggregationInput>
+    by: Bill_itemsScalarFieldEnum[]
+    having?: bill_itemsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Bill_itemsCountAggregateInputType | true
+    _avg?: Bill_itemsAvgAggregateInputType
+    _sum?: Bill_itemsSumAggregateInputType
+    _min?: Bill_itemsMinAggregateInputType
+    _max?: Bill_itemsMaxAggregateInputType
+  }
+
+
+  export type Bill_itemsGroupByOutputType = {
+    id: number
+    billId: number
+    productId: number
+    qty: number
+    price: number
+    _count: Bill_itemsCountAggregateOutputType | null
+    _avg: Bill_itemsAvgAggregateOutputType | null
+    _sum: Bill_itemsSumAggregateOutputType | null
+    _min: Bill_itemsMinAggregateOutputType | null
+    _max: Bill_itemsMaxAggregateOutputType | null
+  }
+
+  type GetBill_itemsGroupByPayload<T extends Bill_itemsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<Bill_itemsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Bill_itemsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Bill_itemsGroupByOutputType[P]>
+            : GetScalarType<T[P], Bill_itemsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type bill_itemsSelect = {
+    id?: boolean
+    billId?: boolean
+    productId?: boolean
+    qty?: boolean
+    price?: boolean
+    bill?: boolean | billsArgs
+    product?: boolean | productsArgs
+  }
+
+
+  export type bill_itemsInclude = {
+    bill?: boolean | billsArgs
+    product?: boolean | productsArgs
+  }
+
+  export type bill_itemsGetPayload<S extends boolean | null | undefined | bill_itemsArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? bill_items :
+    S extends undefined ? never :
+    S extends { include: any } & (bill_itemsArgs | bill_itemsFindManyArgs)
+    ? bill_items  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'bill' ? billsGetPayload<S['include'][P]> :
+        P extends 'product' ? productsGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (bill_itemsArgs | bill_itemsFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'bill' ? billsGetPayload<S['select'][P]> :
+        P extends 'product' ? productsGetPayload<S['select'][P]> :  P extends keyof bill_items ? bill_items[P] : never
+  } 
+      : bill_items
+
+
+  type bill_itemsCountArgs = 
+    Omit<bill_itemsFindManyArgs, 'select' | 'include'> & {
+      select?: Bill_itemsCountAggregateInputType | true
+    }
+
+  export interface bill_itemsDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Bill_items that matches the filter.
+     * @param {bill_itemsFindUniqueArgs} args - Arguments to find a Bill_items
+     * @example
+     * // Get one Bill_items
+     * const bill_items = await prisma.bill_items.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends bill_itemsFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, bill_itemsFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'bill_items'> extends True ? Prisma__bill_itemsClient<bill_itemsGetPayload<T>> : Prisma__bill_itemsClient<bill_itemsGetPayload<T> | null, null>
+
+    /**
+     * Find one Bill_items that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {bill_itemsFindUniqueOrThrowArgs} args - Arguments to find a Bill_items
+     * @example
+     * // Get one Bill_items
+     * const bill_items = await prisma.bill_items.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends bill_itemsFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, bill_itemsFindUniqueOrThrowArgs>
+    ): Prisma__bill_itemsClient<bill_itemsGetPayload<T>>
+
+    /**
+     * Find the first Bill_items that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {bill_itemsFindFirstArgs} args - Arguments to find a Bill_items
+     * @example
+     * // Get one Bill_items
+     * const bill_items = await prisma.bill_items.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends bill_itemsFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, bill_itemsFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'bill_items'> extends True ? Prisma__bill_itemsClient<bill_itemsGetPayload<T>> : Prisma__bill_itemsClient<bill_itemsGetPayload<T> | null, null>
+
+    /**
+     * Find the first Bill_items that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {bill_itemsFindFirstOrThrowArgs} args - Arguments to find a Bill_items
+     * @example
+     * // Get one Bill_items
+     * const bill_items = await prisma.bill_items.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends bill_itemsFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, bill_itemsFindFirstOrThrowArgs>
+    ): Prisma__bill_itemsClient<bill_itemsGetPayload<T>>
+
+    /**
+     * Find zero or more Bill_items that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {bill_itemsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Bill_items
+     * const bill_items = await prisma.bill_items.findMany()
+     * 
+     * // Get first 10 Bill_items
+     * const bill_items = await prisma.bill_items.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bill_itemsWithIdOnly = await prisma.bill_items.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends bill_itemsFindManyArgs>(
+      args?: SelectSubset<T, bill_itemsFindManyArgs>
+    ): Prisma.PrismaPromise<Array<bill_itemsGetPayload<T>>>
+
+    /**
+     * Create a Bill_items.
+     * @param {bill_itemsCreateArgs} args - Arguments to create a Bill_items.
+     * @example
+     * // Create one Bill_items
+     * const Bill_items = await prisma.bill_items.create({
+     *   data: {
+     *     // ... data to create a Bill_items
+     *   }
+     * })
+     * 
+    **/
+    create<T extends bill_itemsCreateArgs>(
+      args: SelectSubset<T, bill_itemsCreateArgs>
+    ): Prisma__bill_itemsClient<bill_itemsGetPayload<T>>
+
+    /**
+     * Delete a Bill_items.
+     * @param {bill_itemsDeleteArgs} args - Arguments to delete one Bill_items.
+     * @example
+     * // Delete one Bill_items
+     * const Bill_items = await prisma.bill_items.delete({
+     *   where: {
+     *     // ... filter to delete one Bill_items
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends bill_itemsDeleteArgs>(
+      args: SelectSubset<T, bill_itemsDeleteArgs>
+    ): Prisma__bill_itemsClient<bill_itemsGetPayload<T>>
+
+    /**
+     * Update one Bill_items.
+     * @param {bill_itemsUpdateArgs} args - Arguments to update one Bill_items.
+     * @example
+     * // Update one Bill_items
+     * const bill_items = await prisma.bill_items.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends bill_itemsUpdateArgs>(
+      args: SelectSubset<T, bill_itemsUpdateArgs>
+    ): Prisma__bill_itemsClient<bill_itemsGetPayload<T>>
+
+    /**
+     * Delete zero or more Bill_items.
+     * @param {bill_itemsDeleteManyArgs} args - Arguments to filter Bill_items to delete.
+     * @example
+     * // Delete a few Bill_items
+     * const { count } = await prisma.bill_items.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends bill_itemsDeleteManyArgs>(
+      args?: SelectSubset<T, bill_itemsDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Bill_items.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {bill_itemsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Bill_items
+     * const bill_items = await prisma.bill_items.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends bill_itemsUpdateManyArgs>(
+      args: SelectSubset<T, bill_itemsUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Bill_items.
+     * @param {bill_itemsUpsertArgs} args - Arguments to update or create a Bill_items.
+     * @example
+     * // Update or create a Bill_items
+     * const bill_items = await prisma.bill_items.upsert({
+     *   create: {
+     *     // ... data to create a Bill_items
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Bill_items we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends bill_itemsUpsertArgs>(
+      args: SelectSubset<T, bill_itemsUpsertArgs>
+    ): Prisma__bill_itemsClient<bill_itemsGetPayload<T>>
+
+    /**
+     * Count the number of Bill_items.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {bill_itemsCountArgs} args - Arguments to filter Bill_items to count.
+     * @example
+     * // Count the number of Bill_items
+     * const count = await prisma.bill_items.count({
+     *   where: {
+     *     // ... the filter for the Bill_items we want to count
+     *   }
+     * })
+    **/
+    count<T extends bill_itemsCountArgs>(
+      args?: Subset<T, bill_itemsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Bill_itemsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Bill_items.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Bill_itemsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Bill_itemsAggregateArgs>(args: Subset<T, Bill_itemsAggregateArgs>): Prisma.PrismaPromise<GetBill_itemsAggregateType<T>>
+
+    /**
+     * Group by Bill_items.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Bill_itemsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Bill_itemsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Bill_itemsGroupByArgs['orderBy'] }
+        : { orderBy?: Bill_itemsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Bill_itemsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBill_itemsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for bill_items.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__bill_itemsClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    bill<T extends billsArgs= {}>(args?: Subset<T, billsArgs>): Prisma__billsClient<billsGetPayload<T> | Null>;
+
+    product<T extends productsArgs= {}>(args?: Subset<T, productsArgs>): Prisma__productsClient<productsGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * bill_items base type for findUnique actions
+   */
+  export type bill_itemsFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the bill_items
+     */
+    select?: bill_itemsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: bill_itemsInclude | null
+    /**
+     * Filter, which bill_items to fetch.
+     */
+    where: bill_itemsWhereUniqueInput
+  }
+
+  /**
+   * bill_items findUnique
+   */
+  export interface bill_itemsFindUniqueArgs extends bill_itemsFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * bill_items findUniqueOrThrow
+   */
+  export type bill_itemsFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the bill_items
+     */
+    select?: bill_itemsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: bill_itemsInclude | null
+    /**
+     * Filter, which bill_items to fetch.
+     */
+    where: bill_itemsWhereUniqueInput
+  }
+
+
+  /**
+   * bill_items base type for findFirst actions
+   */
+  export type bill_itemsFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the bill_items
+     */
+    select?: bill_itemsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: bill_itemsInclude | null
+    /**
+     * Filter, which bill_items to fetch.
+     */
+    where?: bill_itemsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of bill_items to fetch.
+     */
+    orderBy?: Enumerable<bill_itemsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for bill_items.
+     */
+    cursor?: bill_itemsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` bill_items from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` bill_items.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of bill_items.
+     */
+    distinct?: Enumerable<Bill_itemsScalarFieldEnum>
+  }
+
+  /**
+   * bill_items findFirst
+   */
+  export interface bill_itemsFindFirstArgs extends bill_itemsFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * bill_items findFirstOrThrow
+   */
+  export type bill_itemsFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the bill_items
+     */
+    select?: bill_itemsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: bill_itemsInclude | null
+    /**
+     * Filter, which bill_items to fetch.
+     */
+    where?: bill_itemsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of bill_items to fetch.
+     */
+    orderBy?: Enumerable<bill_itemsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for bill_items.
+     */
+    cursor?: bill_itemsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` bill_items from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` bill_items.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of bill_items.
+     */
+    distinct?: Enumerable<Bill_itemsScalarFieldEnum>
+  }
+
+
+  /**
+   * bill_items findMany
+   */
+  export type bill_itemsFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the bill_items
+     */
+    select?: bill_itemsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: bill_itemsInclude | null
+    /**
+     * Filter, which bill_items to fetch.
+     */
+    where?: bill_itemsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of bill_items to fetch.
+     */
+    orderBy?: Enumerable<bill_itemsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing bill_items.
+     */
+    cursor?: bill_itemsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` bill_items from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` bill_items.
+     */
+    skip?: number
+    distinct?: Enumerable<Bill_itemsScalarFieldEnum>
+  }
+
+
+  /**
+   * bill_items create
+   */
+  export type bill_itemsCreateArgs = {
+    /**
+     * Select specific fields to fetch from the bill_items
+     */
+    select?: bill_itemsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: bill_itemsInclude | null
+    /**
+     * The data needed to create a bill_items.
+     */
+    data: XOR<bill_itemsCreateInput, bill_itemsUncheckedCreateInput>
+  }
+
+
+  /**
+   * bill_items update
+   */
+  export type bill_itemsUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the bill_items
+     */
+    select?: bill_itemsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: bill_itemsInclude | null
+    /**
+     * The data needed to update a bill_items.
+     */
+    data: XOR<bill_itemsUpdateInput, bill_itemsUncheckedUpdateInput>
+    /**
+     * Choose, which bill_items to update.
+     */
+    where: bill_itemsWhereUniqueInput
+  }
+
+
+  /**
+   * bill_items updateMany
+   */
+  export type bill_itemsUpdateManyArgs = {
+    /**
+     * The data used to update bill_items.
+     */
+    data: XOR<bill_itemsUpdateManyMutationInput, bill_itemsUncheckedUpdateManyInput>
+    /**
+     * Filter which bill_items to update
+     */
+    where?: bill_itemsWhereInput
+  }
+
+
+  /**
+   * bill_items upsert
+   */
+  export type bill_itemsUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the bill_items
+     */
+    select?: bill_itemsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: bill_itemsInclude | null
+    /**
+     * The filter to search for the bill_items to update in case it exists.
+     */
+    where: bill_itemsWhereUniqueInput
+    /**
+     * In case the bill_items found by the `where` argument doesn't exist, create a new bill_items with this data.
+     */
+    create: XOR<bill_itemsCreateInput, bill_itemsUncheckedCreateInput>
+    /**
+     * In case the bill_items was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<bill_itemsUpdateInput, bill_itemsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * bill_items delete
+   */
+  export type bill_itemsDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the bill_items
+     */
+    select?: bill_itemsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: bill_itemsInclude | null
+    /**
+     * Filter which bill_items to delete.
+     */
+    where: bill_itemsWhereUniqueInput
+  }
+
+
+  /**
+   * bill_items deleteMany
+   */
+  export type bill_itemsDeleteManyArgs = {
+    /**
+     * Filter which bill_items to delete
+     */
+    where?: bill_itemsWhereInput
+  }
+
+
+  /**
+   * bill_items without action
+   */
+  export type bill_itemsArgs = {
+    /**
+     * Select specific fields to fetch from the bill_items
+     */
+    select?: bill_itemsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: bill_itemsInclude | null
+  }
+
+
 
   /**
    * Model products
@@ -801,34 +2909,29 @@ export namespace Prisma {
   export type ProductsAvgAggregateOutputType = {
     id: number | null
     qty: number | null
-    product_price: number | null
   }
 
   export type ProductsSumAggregateOutputType = {
     id: number | null
     qty: number | null
-    product_price: number | null
   }
 
   export type ProductsMinAggregateOutputType = {
     id: number | null
     product_name: string | null
     qty: number | null
-    product_price: number | null
   }
 
   export type ProductsMaxAggregateOutputType = {
     id: number | null
     product_name: string | null
     qty: number | null
-    product_price: number | null
   }
 
   export type ProductsCountAggregateOutputType = {
     id: number
     product_name: number
     qty: number
-    product_price: number
     _all: number
   }
 
@@ -836,34 +2939,29 @@ export namespace Prisma {
   export type ProductsAvgAggregateInputType = {
     id?: true
     qty?: true
-    product_price?: true
   }
 
   export type ProductsSumAggregateInputType = {
     id?: true
     qty?: true
-    product_price?: true
   }
 
   export type ProductsMinAggregateInputType = {
     id?: true
     product_name?: true
     qty?: true
-    product_price?: true
   }
 
   export type ProductsMaxAggregateInputType = {
     id?: true
     product_name?: true
     qty?: true
-    product_price?: true
   }
 
   export type ProductsCountAggregateInputType = {
     id?: true
     product_name?: true
     qty?: true
-    product_price?: true
     _all?: true
   }
 
@@ -958,7 +3056,6 @@ export namespace Prisma {
     id: number
     product_name: string
     qty: number
-    product_price: number
     _count: ProductsCountAggregateOutputType | null
     _avg: ProductsAvgAggregateOutputType | null
     _sum: ProductsSumAggregateOutputType | null
@@ -984,20 +3081,31 @@ export namespace Prisma {
     id?: boolean
     product_name?: boolean
     qty?: boolean
-    product_price?: boolean
+    bill_items?: boolean | products$bill_itemsArgs
+    _count?: boolean | ProductsCountOutputTypeArgs
   }
 
+
+  export type productsInclude = {
+    bill_items?: boolean | products$bill_itemsArgs
+    _count?: boolean | ProductsCountOutputTypeArgs
+  }
 
   export type productsGetPayload<S extends boolean | null | undefined | productsArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
     S extends true ? products :
     S extends undefined ? never :
     S extends { include: any } & (productsArgs | productsFindManyArgs)
-    ? products 
+    ? products  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'bill_items' ? Array < bill_itemsGetPayload<S['include'][P]>>  :
+        P extends '_count' ? ProductsCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
     : S extends { select: any } & (productsArgs | productsFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-    P extends keyof products ? products[P] : never
+        P extends 'bill_items' ? Array < bill_itemsGetPayload<S['select'][P]>>  :
+        P extends '_count' ? ProductsCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof products ? products[P] : never
   } 
       : products
 
@@ -1353,6 +3461,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
+    bill_items<T extends products$bill_itemsArgs= {}>(args?: Subset<T, products$bill_itemsArgs>): Prisma.PrismaPromise<Array<bill_itemsGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -1390,6 +3499,10 @@ export namespace Prisma {
      */
     select?: productsSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: productsInclude | null
+    /**
      * Filter, which products to fetch.
      */
     where: productsWhereUniqueInput
@@ -1416,6 +3529,10 @@ export namespace Prisma {
      */
     select?: productsSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: productsInclude | null
+    /**
      * Filter, which products to fetch.
      */
     where: productsWhereUniqueInput
@@ -1430,6 +3547,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the products
      */
     select?: productsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: productsInclude | null
     /**
      * Filter, which products to fetch.
      */
@@ -1487,6 +3608,10 @@ export namespace Prisma {
      */
     select?: productsSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: productsInclude | null
+    /**
      * Filter, which products to fetch.
      */
     where?: productsWhereInput
@@ -1532,6 +3657,10 @@ export namespace Prisma {
      */
     select?: productsSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: productsInclude | null
+    /**
      * Filter, which products to fetch.
      */
     where?: productsWhereInput
@@ -1572,6 +3701,10 @@ export namespace Prisma {
      */
     select?: productsSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: productsInclude | null
+    /**
      * The data needed to create a products.
      */
     data: XOR<productsCreateInput, productsUncheckedCreateInput>
@@ -1586,6 +3719,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the products
      */
     select?: productsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: productsInclude | null
     /**
      * The data needed to update a products.
      */
@@ -1621,6 +3758,10 @@ export namespace Prisma {
      */
     select?: productsSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: productsInclude | null
+    /**
      * The filter to search for the products to update in case it exists.
      */
     where: productsWhereUniqueInput
@@ -1644,6 +3785,10 @@ export namespace Prisma {
      */
     select?: productsSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: productsInclude | null
+    /**
      * Filter which products to delete.
      */
     where: productsWhereUniqueInput
@@ -1662,6 +3807,27 @@ export namespace Prisma {
 
 
   /**
+   * products.bill_items
+   */
+  export type products$bill_itemsArgs = {
+    /**
+     * Select specific fields to fetch from the bill_items
+     */
+    select?: bill_itemsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: bill_itemsInclude | null
+    where?: bill_itemsWhereInput
+    orderBy?: Enumerable<bill_itemsOrderByWithRelationInput>
+    cursor?: bill_itemsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Bill_itemsScalarFieldEnum>
+  }
+
+
+  /**
    * products without action
    */
   export type productsArgs = {
@@ -1669,6 +3835,964 @@ export namespace Prisma {
      * Select specific fields to fetch from the products
      */
     select?: productsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: productsInclude | null
+  }
+
+
+
+  /**
+   * Model customers
+   */
+
+
+  export type AggregateCustomers = {
+    _count: CustomersCountAggregateOutputType | null
+    _avg: CustomersAvgAggregateOutputType | null
+    _sum: CustomersSumAggregateOutputType | null
+    _min: CustomersMinAggregateOutputType | null
+    _max: CustomersMaxAggregateOutputType | null
+  }
+
+  export type CustomersAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type CustomersSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type CustomersMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+    city: string | null
+    mobileNumber: string | null
+  }
+
+  export type CustomersMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+    city: string | null
+    mobileNumber: string | null
+  }
+
+  export type CustomersCountAggregateOutputType = {
+    id: number
+    name: number
+    city: number
+    mobileNumber: number
+    _all: number
+  }
+
+
+  export type CustomersAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type CustomersSumAggregateInputType = {
+    id?: true
+  }
+
+  export type CustomersMinAggregateInputType = {
+    id?: true
+    name?: true
+    city?: true
+    mobileNumber?: true
+  }
+
+  export type CustomersMaxAggregateInputType = {
+    id?: true
+    name?: true
+    city?: true
+    mobileNumber?: true
+  }
+
+  export type CustomersCountAggregateInputType = {
+    id?: true
+    name?: true
+    city?: true
+    mobileNumber?: true
+    _all?: true
+  }
+
+  export type CustomersAggregateArgs = {
+    /**
+     * Filter which customers to aggregate.
+     */
+    where?: customersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of customers to fetch.
+     */
+    orderBy?: Enumerable<customersOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: customersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` customers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` customers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned customers
+    **/
+    _count?: true | CustomersCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CustomersAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CustomersSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CustomersMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CustomersMaxAggregateInputType
+  }
+
+  export type GetCustomersAggregateType<T extends CustomersAggregateArgs> = {
+        [P in keyof T & keyof AggregateCustomers]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCustomers[P]>
+      : GetScalarType<T[P], AggregateCustomers[P]>
+  }
+
+
+
+
+  export type CustomersGroupByArgs = {
+    where?: customersWhereInput
+    orderBy?: Enumerable<customersOrderByWithAggregationInput>
+    by: CustomersScalarFieldEnum[]
+    having?: customersScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CustomersCountAggregateInputType | true
+    _avg?: CustomersAvgAggregateInputType
+    _sum?: CustomersSumAggregateInputType
+    _min?: CustomersMinAggregateInputType
+    _max?: CustomersMaxAggregateInputType
+  }
+
+
+  export type CustomersGroupByOutputType = {
+    id: number
+    name: string
+    city: string
+    mobileNumber: string
+    _count: CustomersCountAggregateOutputType | null
+    _avg: CustomersAvgAggregateOutputType | null
+    _sum: CustomersSumAggregateOutputType | null
+    _min: CustomersMinAggregateOutputType | null
+    _max: CustomersMaxAggregateOutputType | null
+  }
+
+  type GetCustomersGroupByPayload<T extends CustomersGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<CustomersGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CustomersGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CustomersGroupByOutputType[P]>
+            : GetScalarType<T[P], CustomersGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type customersSelect = {
+    id?: boolean
+    name?: boolean
+    city?: boolean
+    mobileNumber?: boolean
+    bills?: boolean | customers$billsArgs
+    _count?: boolean | CustomersCountOutputTypeArgs
+  }
+
+
+  export type customersInclude = {
+    bills?: boolean | customers$billsArgs
+    _count?: boolean | CustomersCountOutputTypeArgs
+  }
+
+  export type customersGetPayload<S extends boolean | null | undefined | customersArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? customers :
+    S extends undefined ? never :
+    S extends { include: any } & (customersArgs | customersFindManyArgs)
+    ? customers  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'bills' ? Array < billsGetPayload<S['include'][P]>>  :
+        P extends '_count' ? CustomersCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (customersArgs | customersFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'bills' ? Array < billsGetPayload<S['select'][P]>>  :
+        P extends '_count' ? CustomersCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof customers ? customers[P] : never
+  } 
+      : customers
+
+
+  type customersCountArgs = 
+    Omit<customersFindManyArgs, 'select' | 'include'> & {
+      select?: CustomersCountAggregateInputType | true
+    }
+
+  export interface customersDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Customers that matches the filter.
+     * @param {customersFindUniqueArgs} args - Arguments to find a Customers
+     * @example
+     * // Get one Customers
+     * const customers = await prisma.customers.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends customersFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, customersFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'customers'> extends True ? Prisma__customersClient<customersGetPayload<T>> : Prisma__customersClient<customersGetPayload<T> | null, null>
+
+    /**
+     * Find one Customers that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {customersFindUniqueOrThrowArgs} args - Arguments to find a Customers
+     * @example
+     * // Get one Customers
+     * const customers = await prisma.customers.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends customersFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, customersFindUniqueOrThrowArgs>
+    ): Prisma__customersClient<customersGetPayload<T>>
+
+    /**
+     * Find the first Customers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {customersFindFirstArgs} args - Arguments to find a Customers
+     * @example
+     * // Get one Customers
+     * const customers = await prisma.customers.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends customersFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, customersFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'customers'> extends True ? Prisma__customersClient<customersGetPayload<T>> : Prisma__customersClient<customersGetPayload<T> | null, null>
+
+    /**
+     * Find the first Customers that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {customersFindFirstOrThrowArgs} args - Arguments to find a Customers
+     * @example
+     * // Get one Customers
+     * const customers = await prisma.customers.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends customersFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, customersFindFirstOrThrowArgs>
+    ): Prisma__customersClient<customersGetPayload<T>>
+
+    /**
+     * Find zero or more Customers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {customersFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Customers
+     * const customers = await prisma.customers.findMany()
+     * 
+     * // Get first 10 Customers
+     * const customers = await prisma.customers.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const customersWithIdOnly = await prisma.customers.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends customersFindManyArgs>(
+      args?: SelectSubset<T, customersFindManyArgs>
+    ): Prisma.PrismaPromise<Array<customersGetPayload<T>>>
+
+    /**
+     * Create a Customers.
+     * @param {customersCreateArgs} args - Arguments to create a Customers.
+     * @example
+     * // Create one Customers
+     * const Customers = await prisma.customers.create({
+     *   data: {
+     *     // ... data to create a Customers
+     *   }
+     * })
+     * 
+    **/
+    create<T extends customersCreateArgs>(
+      args: SelectSubset<T, customersCreateArgs>
+    ): Prisma__customersClient<customersGetPayload<T>>
+
+    /**
+     * Delete a Customers.
+     * @param {customersDeleteArgs} args - Arguments to delete one Customers.
+     * @example
+     * // Delete one Customers
+     * const Customers = await prisma.customers.delete({
+     *   where: {
+     *     // ... filter to delete one Customers
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends customersDeleteArgs>(
+      args: SelectSubset<T, customersDeleteArgs>
+    ): Prisma__customersClient<customersGetPayload<T>>
+
+    /**
+     * Update one Customers.
+     * @param {customersUpdateArgs} args - Arguments to update one Customers.
+     * @example
+     * // Update one Customers
+     * const customers = await prisma.customers.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends customersUpdateArgs>(
+      args: SelectSubset<T, customersUpdateArgs>
+    ): Prisma__customersClient<customersGetPayload<T>>
+
+    /**
+     * Delete zero or more Customers.
+     * @param {customersDeleteManyArgs} args - Arguments to filter Customers to delete.
+     * @example
+     * // Delete a few Customers
+     * const { count } = await prisma.customers.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends customersDeleteManyArgs>(
+      args?: SelectSubset<T, customersDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Customers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {customersUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Customers
+     * const customers = await prisma.customers.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends customersUpdateManyArgs>(
+      args: SelectSubset<T, customersUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Customers.
+     * @param {customersUpsertArgs} args - Arguments to update or create a Customers.
+     * @example
+     * // Update or create a Customers
+     * const customers = await prisma.customers.upsert({
+     *   create: {
+     *     // ... data to create a Customers
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Customers we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends customersUpsertArgs>(
+      args: SelectSubset<T, customersUpsertArgs>
+    ): Prisma__customersClient<customersGetPayload<T>>
+
+    /**
+     * Count the number of Customers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {customersCountArgs} args - Arguments to filter Customers to count.
+     * @example
+     * // Count the number of Customers
+     * const count = await prisma.customers.count({
+     *   where: {
+     *     // ... the filter for the Customers we want to count
+     *   }
+     * })
+    **/
+    count<T extends customersCountArgs>(
+      args?: Subset<T, customersCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CustomersCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Customers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomersAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CustomersAggregateArgs>(args: Subset<T, CustomersAggregateArgs>): Prisma.PrismaPromise<GetCustomersAggregateType<T>>
+
+    /**
+     * Group by Customers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomersGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CustomersGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CustomersGroupByArgs['orderBy'] }
+        : { orderBy?: CustomersGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CustomersGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCustomersGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for customers.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__customersClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    bills<T extends customers$billsArgs= {}>(args?: Subset<T, customers$billsArgs>): Prisma.PrismaPromise<Array<billsGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * customers base type for findUnique actions
+   */
+  export type customersFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the customers
+     */
+    select?: customersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: customersInclude | null
+    /**
+     * Filter, which customers to fetch.
+     */
+    where: customersWhereUniqueInput
+  }
+
+  /**
+   * customers findUnique
+   */
+  export interface customersFindUniqueArgs extends customersFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * customers findUniqueOrThrow
+   */
+  export type customersFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the customers
+     */
+    select?: customersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: customersInclude | null
+    /**
+     * Filter, which customers to fetch.
+     */
+    where: customersWhereUniqueInput
+  }
+
+
+  /**
+   * customers base type for findFirst actions
+   */
+  export type customersFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the customers
+     */
+    select?: customersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: customersInclude | null
+    /**
+     * Filter, which customers to fetch.
+     */
+    where?: customersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of customers to fetch.
+     */
+    orderBy?: Enumerable<customersOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for customers.
+     */
+    cursor?: customersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` customers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` customers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of customers.
+     */
+    distinct?: Enumerable<CustomersScalarFieldEnum>
+  }
+
+  /**
+   * customers findFirst
+   */
+  export interface customersFindFirstArgs extends customersFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * customers findFirstOrThrow
+   */
+  export type customersFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the customers
+     */
+    select?: customersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: customersInclude | null
+    /**
+     * Filter, which customers to fetch.
+     */
+    where?: customersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of customers to fetch.
+     */
+    orderBy?: Enumerable<customersOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for customers.
+     */
+    cursor?: customersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` customers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` customers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of customers.
+     */
+    distinct?: Enumerable<CustomersScalarFieldEnum>
+  }
+
+
+  /**
+   * customers findMany
+   */
+  export type customersFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the customers
+     */
+    select?: customersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: customersInclude | null
+    /**
+     * Filter, which customers to fetch.
+     */
+    where?: customersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of customers to fetch.
+     */
+    orderBy?: Enumerable<customersOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing customers.
+     */
+    cursor?: customersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` customers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` customers.
+     */
+    skip?: number
+    distinct?: Enumerable<CustomersScalarFieldEnum>
+  }
+
+
+  /**
+   * customers create
+   */
+  export type customersCreateArgs = {
+    /**
+     * Select specific fields to fetch from the customers
+     */
+    select?: customersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: customersInclude | null
+    /**
+     * The data needed to create a customers.
+     */
+    data: XOR<customersCreateInput, customersUncheckedCreateInput>
+  }
+
+
+  /**
+   * customers update
+   */
+  export type customersUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the customers
+     */
+    select?: customersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: customersInclude | null
+    /**
+     * The data needed to update a customers.
+     */
+    data: XOR<customersUpdateInput, customersUncheckedUpdateInput>
+    /**
+     * Choose, which customers to update.
+     */
+    where: customersWhereUniqueInput
+  }
+
+
+  /**
+   * customers updateMany
+   */
+  export type customersUpdateManyArgs = {
+    /**
+     * The data used to update customers.
+     */
+    data: XOR<customersUpdateManyMutationInput, customersUncheckedUpdateManyInput>
+    /**
+     * Filter which customers to update
+     */
+    where?: customersWhereInput
+  }
+
+
+  /**
+   * customers upsert
+   */
+  export type customersUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the customers
+     */
+    select?: customersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: customersInclude | null
+    /**
+     * The filter to search for the customers to update in case it exists.
+     */
+    where: customersWhereUniqueInput
+    /**
+     * In case the customers found by the `where` argument doesn't exist, create a new customers with this data.
+     */
+    create: XOR<customersCreateInput, customersUncheckedCreateInput>
+    /**
+     * In case the customers was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<customersUpdateInput, customersUncheckedUpdateInput>
+  }
+
+
+  /**
+   * customers delete
+   */
+  export type customersDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the customers
+     */
+    select?: customersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: customersInclude | null
+    /**
+     * Filter which customers to delete.
+     */
+    where: customersWhereUniqueInput
+  }
+
+
+  /**
+   * customers deleteMany
+   */
+  export type customersDeleteManyArgs = {
+    /**
+     * Filter which customers to delete
+     */
+    where?: customersWhereInput
+  }
+
+
+  /**
+   * customers.bills
+   */
+  export type customers$billsArgs = {
+    /**
+     * Select specific fields to fetch from the bills
+     */
+    select?: billsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: billsInclude | null
+    where?: billsWhereInput
+    orderBy?: Enumerable<billsOrderByWithRelationInput>
+    cursor?: billsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<BillsScalarFieldEnum>
+  }
+
+
+  /**
+   * customers without action
+   */
+  export type customersArgs = {
+    /**
+     * Select specific fields to fetch from the customers
+     */
+    select?: customersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: customersInclude | null
   }
 
 
@@ -1680,11 +4804,40 @@ export namespace Prisma {
   // Based on
   // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
+  export const Bill_itemsScalarFieldEnum: {
+    id: 'id',
+    billId: 'billId',
+    productId: 'productId',
+    qty: 'qty',
+    price: 'price'
+  };
+
+  export type Bill_itemsScalarFieldEnum = (typeof Bill_itemsScalarFieldEnum)[keyof typeof Bill_itemsScalarFieldEnum]
+
+
+  export const BillsScalarFieldEnum: {
+    id: 'id',
+    customerId: 'customerId',
+    date: 'date'
+  };
+
+  export type BillsScalarFieldEnum = (typeof BillsScalarFieldEnum)[keyof typeof BillsScalarFieldEnum]
+
+
+  export const CustomersScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    city: 'city',
+    mobileNumber: 'mobileNumber'
+  };
+
+  export type CustomersScalarFieldEnum = (typeof CustomersScalarFieldEnum)[keyof typeof CustomersScalarFieldEnum]
+
+
   export const ProductsScalarFieldEnum: {
     id: 'id',
     product_name: 'product_name',
-    qty: 'qty',
-    product_price: 'product_price'
+    qty: 'qty'
   };
 
   export type ProductsScalarFieldEnum = (typeof ProductsScalarFieldEnum)[keyof typeof ProductsScalarFieldEnum]
@@ -1710,6 +4863,100 @@ export namespace Prisma {
    */
 
 
+  export type billsWhereInput = {
+    AND?: Enumerable<billsWhereInput>
+    OR?: Enumerable<billsWhereInput>
+    NOT?: Enumerable<billsWhereInput>
+    id?: IntFilter | number
+    customerId?: IntFilter | number
+    date?: DateTimeFilter | Date | string
+    customer?: XOR<CustomersRelationFilter, customersWhereInput>
+    bill_items?: Bill_itemsListRelationFilter
+  }
+
+  export type billsOrderByWithRelationInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    date?: SortOrder
+    customer?: customersOrderByWithRelationInput
+    bill_items?: bill_itemsOrderByRelationAggregateInput
+  }
+
+  export type billsWhereUniqueInput = {
+    id?: number
+  }
+
+  export type billsOrderByWithAggregationInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    date?: SortOrder
+    _count?: billsCountOrderByAggregateInput
+    _avg?: billsAvgOrderByAggregateInput
+    _max?: billsMaxOrderByAggregateInput
+    _min?: billsMinOrderByAggregateInput
+    _sum?: billsSumOrderByAggregateInput
+  }
+
+  export type billsScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<billsScalarWhereWithAggregatesInput>
+    OR?: Enumerable<billsScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<billsScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    customerId?: IntWithAggregatesFilter | number
+    date?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type bill_itemsWhereInput = {
+    AND?: Enumerable<bill_itemsWhereInput>
+    OR?: Enumerable<bill_itemsWhereInput>
+    NOT?: Enumerable<bill_itemsWhereInput>
+    id?: IntFilter | number
+    billId?: IntFilter | number
+    productId?: IntFilter | number
+    qty?: IntFilter | number
+    price?: FloatFilter | number
+    bill?: XOR<BillsRelationFilter, billsWhereInput>
+    product?: XOR<ProductsRelationFilter, productsWhereInput>
+  }
+
+  export type bill_itemsOrderByWithRelationInput = {
+    id?: SortOrder
+    billId?: SortOrder
+    productId?: SortOrder
+    qty?: SortOrder
+    price?: SortOrder
+    bill?: billsOrderByWithRelationInput
+    product?: productsOrderByWithRelationInput
+  }
+
+  export type bill_itemsWhereUniqueInput = {
+    id?: number
+  }
+
+  export type bill_itemsOrderByWithAggregationInput = {
+    id?: SortOrder
+    billId?: SortOrder
+    productId?: SortOrder
+    qty?: SortOrder
+    price?: SortOrder
+    _count?: bill_itemsCountOrderByAggregateInput
+    _avg?: bill_itemsAvgOrderByAggregateInput
+    _max?: bill_itemsMaxOrderByAggregateInput
+    _min?: bill_itemsMinOrderByAggregateInput
+    _sum?: bill_itemsSumOrderByAggregateInput
+  }
+
+  export type bill_itemsScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<bill_itemsScalarWhereWithAggregatesInput>
+    OR?: Enumerable<bill_itemsScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<bill_itemsScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    billId?: IntWithAggregatesFilter | number
+    productId?: IntWithAggregatesFilter | number
+    qty?: IntWithAggregatesFilter | number
+    price?: FloatWithAggregatesFilter | number
+  }
+
   export type productsWhereInput = {
     AND?: Enumerable<productsWhereInput>
     OR?: Enumerable<productsWhereInput>
@@ -1717,14 +4964,14 @@ export namespace Prisma {
     id?: IntFilter | number
     product_name?: StringFilter | string
     qty?: IntFilter | number
-    product_price?: FloatFilter | number
+    bill_items?: Bill_itemsListRelationFilter
   }
 
   export type productsOrderByWithRelationInput = {
     id?: SortOrder
     product_name?: SortOrder
     qty?: SortOrder
-    product_price?: SortOrder
+    bill_items?: bill_itemsOrderByRelationAggregateInput
   }
 
   export type productsWhereUniqueInput = {
@@ -1735,7 +4982,6 @@ export namespace Prisma {
     id?: SortOrder
     product_name?: SortOrder
     qty?: SortOrder
-    product_price?: SortOrder
     _count?: productsCountOrderByAggregateInput
     _avg?: productsAvgOrderByAggregateInput
     _max?: productsMaxOrderByAggregateInput
@@ -1750,46 +4996,210 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter | number
     product_name?: StringWithAggregatesFilter | string
     qty?: IntWithAggregatesFilter | number
-    product_price?: FloatWithAggregatesFilter | number
+  }
+
+  export type customersWhereInput = {
+    AND?: Enumerable<customersWhereInput>
+    OR?: Enumerable<customersWhereInput>
+    NOT?: Enumerable<customersWhereInput>
+    id?: IntFilter | number
+    name?: StringFilter | string
+    city?: StringFilter | string
+    mobileNumber?: StringFilter | string
+    bills?: BillsListRelationFilter
+  }
+
+  export type customersOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    city?: SortOrder
+    mobileNumber?: SortOrder
+    bills?: billsOrderByRelationAggregateInput
+  }
+
+  export type customersWhereUniqueInput = {
+    id?: number
+  }
+
+  export type customersOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    city?: SortOrder
+    mobileNumber?: SortOrder
+    _count?: customersCountOrderByAggregateInput
+    _avg?: customersAvgOrderByAggregateInput
+    _max?: customersMaxOrderByAggregateInput
+    _min?: customersMinOrderByAggregateInput
+    _sum?: customersSumOrderByAggregateInput
+  }
+
+  export type customersScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<customersScalarWhereWithAggregatesInput>
+    OR?: Enumerable<customersScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<customersScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    name?: StringWithAggregatesFilter | string
+    city?: StringWithAggregatesFilter | string
+    mobileNumber?: StringWithAggregatesFilter | string
+  }
+
+  export type billsCreateInput = {
+    date: Date | string
+    customer: customersCreateNestedOneWithoutBillsInput
+    bill_items?: bill_itemsCreateNestedManyWithoutBillInput
+  }
+
+  export type billsUncheckedCreateInput = {
+    id?: number
+    customerId: number
+    date: Date | string
+    bill_items?: bill_itemsUncheckedCreateNestedManyWithoutBillInput
+  }
+
+  export type billsUpdateInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: customersUpdateOneRequiredWithoutBillsNestedInput
+    bill_items?: bill_itemsUpdateManyWithoutBillNestedInput
+  }
+
+  export type billsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    customerId?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    bill_items?: bill_itemsUncheckedUpdateManyWithoutBillNestedInput
+  }
+
+  export type billsUpdateManyMutationInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type billsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    customerId?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type bill_itemsCreateInput = {
+    qty: number
+    price: number
+    bill: billsCreateNestedOneWithoutBill_itemsInput
+    product: productsCreateNestedOneWithoutBill_itemsInput
+  }
+
+  export type bill_itemsUncheckedCreateInput = {
+    id?: number
+    billId: number
+    productId: number
+    qty: number
+    price: number
+  }
+
+  export type bill_itemsUpdateInput = {
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    bill?: billsUpdateOneRequiredWithoutBill_itemsNestedInput
+    product?: productsUpdateOneRequiredWithoutBill_itemsNestedInput
+  }
+
+  export type bill_itemsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    billId?: IntFieldUpdateOperationsInput | number
+    productId?: IntFieldUpdateOperationsInput | number
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type bill_itemsUpdateManyMutationInput = {
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type bill_itemsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    billId?: IntFieldUpdateOperationsInput | number
+    productId?: IntFieldUpdateOperationsInput | number
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
   }
 
   export type productsCreateInput = {
     product_name: string
     qty: number
-    product_price: number
+    bill_items?: bill_itemsCreateNestedManyWithoutProductInput
   }
 
   export type productsUncheckedCreateInput = {
     id?: number
     product_name: string
     qty: number
-    product_price: number
+    bill_items?: bill_itemsUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type productsUpdateInput = {
     product_name?: StringFieldUpdateOperationsInput | string
     qty?: IntFieldUpdateOperationsInput | number
-    product_price?: FloatFieldUpdateOperationsInput | number
+    bill_items?: bill_itemsUpdateManyWithoutProductNestedInput
   }
 
   export type productsUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     product_name?: StringFieldUpdateOperationsInput | string
     qty?: IntFieldUpdateOperationsInput | number
-    product_price?: FloatFieldUpdateOperationsInput | number
+    bill_items?: bill_itemsUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type productsUpdateManyMutationInput = {
     product_name?: StringFieldUpdateOperationsInput | string
     qty?: IntFieldUpdateOperationsInput | number
-    product_price?: FloatFieldUpdateOperationsInput | number
   }
 
   export type productsUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     product_name?: StringFieldUpdateOperationsInput | string
     qty?: IntFieldUpdateOperationsInput | number
-    product_price?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type customersCreateInput = {
+    name: string
+    city: string
+    mobileNumber: string
+    bills?: billsCreateNestedManyWithoutCustomerInput
+  }
+
+  export type customersUncheckedCreateInput = {
+    id?: number
+    name: string
+    city: string
+    mobileNumber: string
+    bills?: billsUncheckedCreateNestedManyWithoutCustomerInput
+  }
+
+  export type customersUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    mobileNumber?: StringFieldUpdateOperationsInput | string
+    bills?: billsUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type customersUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    mobileNumber?: StringFieldUpdateOperationsInput | string
+    bills?: billsUncheckedUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type customersUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    mobileNumber?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type customersUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    mobileNumber?: StringFieldUpdateOperationsInput | string
   }
 
   export type IntFilter = {
@@ -1803,62 +5213,58 @@ export namespace Prisma {
     not?: NestedIntFilter | number
   }
 
-  export type StringFilter = {
-    equals?: string
-    in?: Enumerable<string>
-    notIn?: Enumerable<string>
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    not?: NestedStringFilter | string
+  export type DateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
   }
 
-  export type FloatFilter = {
-    equals?: number
-    in?: Enumerable<number>
-    notIn?: Enumerable<number>
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedFloatFilter | number
+  export type CustomersRelationFilter = {
+    is?: customersWhereInput
+    isNot?: customersWhereInput
   }
 
-  export type productsCountOrderByAggregateInput = {
+  export type Bill_itemsListRelationFilter = {
+    every?: bill_itemsWhereInput
+    some?: bill_itemsWhereInput
+    none?: bill_itemsWhereInput
+  }
+
+  export type bill_itemsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type billsCountOrderByAggregateInput = {
     id?: SortOrder
-    product_name?: SortOrder
-    qty?: SortOrder
-    product_price?: SortOrder
+    customerId?: SortOrder
+    date?: SortOrder
   }
 
-  export type productsAvgOrderByAggregateInput = {
+  export type billsAvgOrderByAggregateInput = {
     id?: SortOrder
-    qty?: SortOrder
-    product_price?: SortOrder
+    customerId?: SortOrder
   }
 
-  export type productsMaxOrderByAggregateInput = {
+  export type billsMaxOrderByAggregateInput = {
     id?: SortOrder
-    product_name?: SortOrder
-    qty?: SortOrder
-    product_price?: SortOrder
+    customerId?: SortOrder
+    date?: SortOrder
   }
 
-  export type productsMinOrderByAggregateInput = {
+  export type billsMinOrderByAggregateInput = {
     id?: SortOrder
-    product_name?: SortOrder
-    qty?: SortOrder
-    product_price?: SortOrder
+    customerId?: SortOrder
+    date?: SortOrder
   }
 
-  export type productsSumOrderByAggregateInput = {
+  export type billsSumOrderByAggregateInput = {
     id?: SortOrder
-    qty?: SortOrder
-    product_price?: SortOrder
+    customerId?: SortOrder
   }
 
   export type IntWithAggregatesFilter = {
@@ -1875,6 +5281,139 @@ export namespace Prisma {
     _sum?: NestedIntFilter
     _min?: NestedIntFilter
     _max?: NestedIntFilter
+  }
+
+  export type DateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
+  }
+
+  export type FloatFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatFilter | number
+  }
+
+  export type BillsRelationFilter = {
+    is?: billsWhereInput
+    isNot?: billsWhereInput
+  }
+
+  export type ProductsRelationFilter = {
+    is?: productsWhereInput
+    isNot?: productsWhereInput
+  }
+
+  export type bill_itemsCountOrderByAggregateInput = {
+    id?: SortOrder
+    billId?: SortOrder
+    productId?: SortOrder
+    qty?: SortOrder
+    price?: SortOrder
+  }
+
+  export type bill_itemsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    billId?: SortOrder
+    productId?: SortOrder
+    qty?: SortOrder
+    price?: SortOrder
+  }
+
+  export type bill_itemsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    billId?: SortOrder
+    productId?: SortOrder
+    qty?: SortOrder
+    price?: SortOrder
+  }
+
+  export type bill_itemsMinOrderByAggregateInput = {
+    id?: SortOrder
+    billId?: SortOrder
+    productId?: SortOrder
+    qty?: SortOrder
+    price?: SortOrder
+  }
+
+  export type bill_itemsSumOrderByAggregateInput = {
+    id?: SortOrder
+    billId?: SortOrder
+    productId?: SortOrder
+    qty?: SortOrder
+    price?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatWithAggregatesFilter | number
+    _count?: NestedIntFilter
+    _avg?: NestedFloatFilter
+    _sum?: NestedFloatFilter
+    _min?: NestedFloatFilter
+    _max?: NestedFloatFilter
+  }
+
+  export type StringFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringFilter | string
+  }
+
+  export type productsCountOrderByAggregateInput = {
+    id?: SortOrder
+    product_name?: SortOrder
+    qty?: SortOrder
+  }
+
+  export type productsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    qty?: SortOrder
+  }
+
+  export type productsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    product_name?: SortOrder
+    qty?: SortOrder
+  }
+
+  export type productsMinOrderByAggregateInput = {
+    id?: SortOrder
+    product_name?: SortOrder
+    qty?: SortOrder
+  }
+
+  export type productsSumOrderByAggregateInput = {
+    id?: SortOrder
+    qty?: SortOrder
   }
 
   export type StringWithAggregatesFilter = {
@@ -1894,24 +5433,86 @@ export namespace Prisma {
     _max?: NestedStringFilter
   }
 
-  export type FloatWithAggregatesFilter = {
-    equals?: number
-    in?: Enumerable<number>
-    notIn?: Enumerable<number>
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedFloatWithAggregatesFilter | number
-    _count?: NestedIntFilter
-    _avg?: NestedFloatFilter
-    _sum?: NestedFloatFilter
-    _min?: NestedFloatFilter
-    _max?: NestedFloatFilter
+  export type BillsListRelationFilter = {
+    every?: billsWhereInput
+    some?: billsWhereInput
+    none?: billsWhereInput
   }
 
-  export type StringFieldUpdateOperationsInput = {
-    set?: string
+  export type billsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type customersCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    city?: SortOrder
+    mobileNumber?: SortOrder
+  }
+
+  export type customersAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type customersMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    city?: SortOrder
+    mobileNumber?: SortOrder
+  }
+
+  export type customersMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    city?: SortOrder
+    mobileNumber?: SortOrder
+  }
+
+  export type customersSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type customersCreateNestedOneWithoutBillsInput = {
+    create?: XOR<customersCreateWithoutBillsInput, customersUncheckedCreateWithoutBillsInput>
+    connectOrCreate?: customersCreateOrConnectWithoutBillsInput
+    connect?: customersWhereUniqueInput
+  }
+
+  export type bill_itemsCreateNestedManyWithoutBillInput = {
+    create?: XOR<Enumerable<bill_itemsCreateWithoutBillInput>, Enumerable<bill_itemsUncheckedCreateWithoutBillInput>>
+    connectOrCreate?: Enumerable<bill_itemsCreateOrConnectWithoutBillInput>
+    connect?: Enumerable<bill_itemsWhereUniqueInput>
+  }
+
+  export type bill_itemsUncheckedCreateNestedManyWithoutBillInput = {
+    create?: XOR<Enumerable<bill_itemsCreateWithoutBillInput>, Enumerable<bill_itemsUncheckedCreateWithoutBillInput>>
+    connectOrCreate?: Enumerable<bill_itemsCreateOrConnectWithoutBillInput>
+    connect?: Enumerable<bill_itemsWhereUniqueInput>
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type customersUpdateOneRequiredWithoutBillsNestedInput = {
+    create?: XOR<customersCreateWithoutBillsInput, customersUncheckedCreateWithoutBillsInput>
+    connectOrCreate?: customersCreateOrConnectWithoutBillsInput
+    upsert?: customersUpsertWithoutBillsInput
+    connect?: customersWhereUniqueInput
+    update?: XOR<customersUpdateWithoutBillsInput, customersUncheckedUpdateWithoutBillsInput>
+  }
+
+  export type bill_itemsUpdateManyWithoutBillNestedInput = {
+    create?: XOR<Enumerable<bill_itemsCreateWithoutBillInput>, Enumerable<bill_itemsUncheckedCreateWithoutBillInput>>
+    connectOrCreate?: Enumerable<bill_itemsCreateOrConnectWithoutBillInput>
+    upsert?: Enumerable<bill_itemsUpsertWithWhereUniqueWithoutBillInput>
+    set?: Enumerable<bill_itemsWhereUniqueInput>
+    disconnect?: Enumerable<bill_itemsWhereUniqueInput>
+    delete?: Enumerable<bill_itemsWhereUniqueInput>
+    connect?: Enumerable<bill_itemsWhereUniqueInput>
+    update?: Enumerable<bill_itemsUpdateWithWhereUniqueWithoutBillInput>
+    updateMany?: Enumerable<bill_itemsUpdateManyWithWhereWithoutBillInput>
+    deleteMany?: Enumerable<bill_itemsScalarWhereInput>
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -1922,12 +5523,133 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type bill_itemsUncheckedUpdateManyWithoutBillNestedInput = {
+    create?: XOR<Enumerable<bill_itemsCreateWithoutBillInput>, Enumerable<bill_itemsUncheckedCreateWithoutBillInput>>
+    connectOrCreate?: Enumerable<bill_itemsCreateOrConnectWithoutBillInput>
+    upsert?: Enumerable<bill_itemsUpsertWithWhereUniqueWithoutBillInput>
+    set?: Enumerable<bill_itemsWhereUniqueInput>
+    disconnect?: Enumerable<bill_itemsWhereUniqueInput>
+    delete?: Enumerable<bill_itemsWhereUniqueInput>
+    connect?: Enumerable<bill_itemsWhereUniqueInput>
+    update?: Enumerable<bill_itemsUpdateWithWhereUniqueWithoutBillInput>
+    updateMany?: Enumerable<bill_itemsUpdateManyWithWhereWithoutBillInput>
+    deleteMany?: Enumerable<bill_itemsScalarWhereInput>
+  }
+
+  export type billsCreateNestedOneWithoutBill_itemsInput = {
+    create?: XOR<billsCreateWithoutBill_itemsInput, billsUncheckedCreateWithoutBill_itemsInput>
+    connectOrCreate?: billsCreateOrConnectWithoutBill_itemsInput
+    connect?: billsWhereUniqueInput
+  }
+
+  export type productsCreateNestedOneWithoutBill_itemsInput = {
+    create?: XOR<productsCreateWithoutBill_itemsInput, productsUncheckedCreateWithoutBill_itemsInput>
+    connectOrCreate?: productsCreateOrConnectWithoutBill_itemsInput
+    connect?: productsWhereUniqueInput
+  }
+
   export type FloatFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type billsUpdateOneRequiredWithoutBill_itemsNestedInput = {
+    create?: XOR<billsCreateWithoutBill_itemsInput, billsUncheckedCreateWithoutBill_itemsInput>
+    connectOrCreate?: billsCreateOrConnectWithoutBill_itemsInput
+    upsert?: billsUpsertWithoutBill_itemsInput
+    connect?: billsWhereUniqueInput
+    update?: XOR<billsUpdateWithoutBill_itemsInput, billsUncheckedUpdateWithoutBill_itemsInput>
+  }
+
+  export type productsUpdateOneRequiredWithoutBill_itemsNestedInput = {
+    create?: XOR<productsCreateWithoutBill_itemsInput, productsUncheckedCreateWithoutBill_itemsInput>
+    connectOrCreate?: productsCreateOrConnectWithoutBill_itemsInput
+    upsert?: productsUpsertWithoutBill_itemsInput
+    connect?: productsWhereUniqueInput
+    update?: XOR<productsUpdateWithoutBill_itemsInput, productsUncheckedUpdateWithoutBill_itemsInput>
+  }
+
+  export type bill_itemsCreateNestedManyWithoutProductInput = {
+    create?: XOR<Enumerable<bill_itemsCreateWithoutProductInput>, Enumerable<bill_itemsUncheckedCreateWithoutProductInput>>
+    connectOrCreate?: Enumerable<bill_itemsCreateOrConnectWithoutProductInput>
+    connect?: Enumerable<bill_itemsWhereUniqueInput>
+  }
+
+  export type bill_itemsUncheckedCreateNestedManyWithoutProductInput = {
+    create?: XOR<Enumerable<bill_itemsCreateWithoutProductInput>, Enumerable<bill_itemsUncheckedCreateWithoutProductInput>>
+    connectOrCreate?: Enumerable<bill_itemsCreateOrConnectWithoutProductInput>
+    connect?: Enumerable<bill_itemsWhereUniqueInput>
+  }
+
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
+  }
+
+  export type bill_itemsUpdateManyWithoutProductNestedInput = {
+    create?: XOR<Enumerable<bill_itemsCreateWithoutProductInput>, Enumerable<bill_itemsUncheckedCreateWithoutProductInput>>
+    connectOrCreate?: Enumerable<bill_itemsCreateOrConnectWithoutProductInput>
+    upsert?: Enumerable<bill_itemsUpsertWithWhereUniqueWithoutProductInput>
+    set?: Enumerable<bill_itemsWhereUniqueInput>
+    disconnect?: Enumerable<bill_itemsWhereUniqueInput>
+    delete?: Enumerable<bill_itemsWhereUniqueInput>
+    connect?: Enumerable<bill_itemsWhereUniqueInput>
+    update?: Enumerable<bill_itemsUpdateWithWhereUniqueWithoutProductInput>
+    updateMany?: Enumerable<bill_itemsUpdateManyWithWhereWithoutProductInput>
+    deleteMany?: Enumerable<bill_itemsScalarWhereInput>
+  }
+
+  export type bill_itemsUncheckedUpdateManyWithoutProductNestedInput = {
+    create?: XOR<Enumerable<bill_itemsCreateWithoutProductInput>, Enumerable<bill_itemsUncheckedCreateWithoutProductInput>>
+    connectOrCreate?: Enumerable<bill_itemsCreateOrConnectWithoutProductInput>
+    upsert?: Enumerable<bill_itemsUpsertWithWhereUniqueWithoutProductInput>
+    set?: Enumerable<bill_itemsWhereUniqueInput>
+    disconnect?: Enumerable<bill_itemsWhereUniqueInput>
+    delete?: Enumerable<bill_itemsWhereUniqueInput>
+    connect?: Enumerable<bill_itemsWhereUniqueInput>
+    update?: Enumerable<bill_itemsUpdateWithWhereUniqueWithoutProductInput>
+    updateMany?: Enumerable<bill_itemsUpdateManyWithWhereWithoutProductInput>
+    deleteMany?: Enumerable<bill_itemsScalarWhereInput>
+  }
+
+  export type billsCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<Enumerable<billsCreateWithoutCustomerInput>, Enumerable<billsUncheckedCreateWithoutCustomerInput>>
+    connectOrCreate?: Enumerable<billsCreateOrConnectWithoutCustomerInput>
+    connect?: Enumerable<billsWhereUniqueInput>
+  }
+
+  export type billsUncheckedCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<Enumerable<billsCreateWithoutCustomerInput>, Enumerable<billsUncheckedCreateWithoutCustomerInput>>
+    connectOrCreate?: Enumerable<billsCreateOrConnectWithoutCustomerInput>
+    connect?: Enumerable<billsWhereUniqueInput>
+  }
+
+  export type billsUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<Enumerable<billsCreateWithoutCustomerInput>, Enumerable<billsUncheckedCreateWithoutCustomerInput>>
+    connectOrCreate?: Enumerable<billsCreateOrConnectWithoutCustomerInput>
+    upsert?: Enumerable<billsUpsertWithWhereUniqueWithoutCustomerInput>
+    set?: Enumerable<billsWhereUniqueInput>
+    disconnect?: Enumerable<billsWhereUniqueInput>
+    delete?: Enumerable<billsWhereUniqueInput>
+    connect?: Enumerable<billsWhereUniqueInput>
+    update?: Enumerable<billsUpdateWithWhereUniqueWithoutCustomerInput>
+    updateMany?: Enumerable<billsUpdateManyWithWhereWithoutCustomerInput>
+    deleteMany?: Enumerable<billsScalarWhereInput>
+  }
+
+  export type billsUncheckedUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<Enumerable<billsCreateWithoutCustomerInput>, Enumerable<billsUncheckedCreateWithoutCustomerInput>>
+    connectOrCreate?: Enumerable<billsCreateOrConnectWithoutCustomerInput>
+    upsert?: Enumerable<billsUpsertWithWhereUniqueWithoutCustomerInput>
+    set?: Enumerable<billsWhereUniqueInput>
+    disconnect?: Enumerable<billsWhereUniqueInput>
+    delete?: Enumerable<billsWhereUniqueInput>
+    connect?: Enumerable<billsWhereUniqueInput>
+    update?: Enumerable<billsUpdateWithWhereUniqueWithoutCustomerInput>
+    updateMany?: Enumerable<billsUpdateManyWithWhereWithoutCustomerInput>
+    deleteMany?: Enumerable<billsScalarWhereInput>
   }
 
   export type NestedIntFilter = {
@@ -1941,29 +5663,15 @@ export namespace Prisma {
     not?: NestedIntFilter | number
   }
 
-  export type NestedStringFilter = {
-    equals?: string
-    in?: Enumerable<string>
-    notIn?: Enumerable<string>
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    not?: NestedStringFilter | string
-  }
-
-  export type NestedFloatFilter = {
-    equals?: number
-    in?: Enumerable<number>
-    notIn?: Enumerable<number>
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedFloatFilter | number
+  export type NestedDateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
   }
 
   export type NestedIntWithAggregatesFilter = {
@@ -1980,6 +5688,61 @@ export namespace Prisma {
     _sum?: NestedIntFilter
     _min?: NestedIntFilter
     _max?: NestedIntFilter
+  }
+
+  export type NestedFloatFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatFilter | number
+  }
+
+  export type NestedDateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
+  }
+
+  export type NestedFloatWithAggregatesFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatWithAggregatesFilter | number
+    _count?: NestedIntFilter
+    _avg?: NestedFloatFilter
+    _sum?: NestedFloatFilter
+    _min?: NestedFloatFilter
+    _max?: NestedFloatFilter
+  }
+
+  export type NestedStringFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringFilter | string
   }
 
   export type NestedStringWithAggregatesFilter = {
@@ -1999,20 +5762,273 @@ export namespace Prisma {
     _max?: NestedStringFilter
   }
 
-  export type NestedFloatWithAggregatesFilter = {
-    equals?: number
-    in?: Enumerable<number>
-    notIn?: Enumerable<number>
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedFloatWithAggregatesFilter | number
-    _count?: NestedIntFilter
-    _avg?: NestedFloatFilter
-    _sum?: NestedFloatFilter
-    _min?: NestedFloatFilter
-    _max?: NestedFloatFilter
+  export type customersCreateWithoutBillsInput = {
+    name: string
+    city: string
+    mobileNumber: string
+  }
+
+  export type customersUncheckedCreateWithoutBillsInput = {
+    id?: number
+    name: string
+    city: string
+    mobileNumber: string
+  }
+
+  export type customersCreateOrConnectWithoutBillsInput = {
+    where: customersWhereUniqueInput
+    create: XOR<customersCreateWithoutBillsInput, customersUncheckedCreateWithoutBillsInput>
+  }
+
+  export type bill_itemsCreateWithoutBillInput = {
+    qty: number
+    price: number
+    product: productsCreateNestedOneWithoutBill_itemsInput
+  }
+
+  export type bill_itemsUncheckedCreateWithoutBillInput = {
+    id?: number
+    productId: number
+    qty: number
+    price: number
+  }
+
+  export type bill_itemsCreateOrConnectWithoutBillInput = {
+    where: bill_itemsWhereUniqueInput
+    create: XOR<bill_itemsCreateWithoutBillInput, bill_itemsUncheckedCreateWithoutBillInput>
+  }
+
+  export type customersUpsertWithoutBillsInput = {
+    update: XOR<customersUpdateWithoutBillsInput, customersUncheckedUpdateWithoutBillsInput>
+    create: XOR<customersCreateWithoutBillsInput, customersUncheckedCreateWithoutBillsInput>
+  }
+
+  export type customersUpdateWithoutBillsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    mobileNumber?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type customersUncheckedUpdateWithoutBillsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    mobileNumber?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type bill_itemsUpsertWithWhereUniqueWithoutBillInput = {
+    where: bill_itemsWhereUniqueInput
+    update: XOR<bill_itemsUpdateWithoutBillInput, bill_itemsUncheckedUpdateWithoutBillInput>
+    create: XOR<bill_itemsCreateWithoutBillInput, bill_itemsUncheckedCreateWithoutBillInput>
+  }
+
+  export type bill_itemsUpdateWithWhereUniqueWithoutBillInput = {
+    where: bill_itemsWhereUniqueInput
+    data: XOR<bill_itemsUpdateWithoutBillInput, bill_itemsUncheckedUpdateWithoutBillInput>
+  }
+
+  export type bill_itemsUpdateManyWithWhereWithoutBillInput = {
+    where: bill_itemsScalarWhereInput
+    data: XOR<bill_itemsUpdateManyMutationInput, bill_itemsUncheckedUpdateManyWithoutBill_itemsInput>
+  }
+
+  export type bill_itemsScalarWhereInput = {
+    AND?: Enumerable<bill_itemsScalarWhereInput>
+    OR?: Enumerable<bill_itemsScalarWhereInput>
+    NOT?: Enumerable<bill_itemsScalarWhereInput>
+    id?: IntFilter | number
+    billId?: IntFilter | number
+    productId?: IntFilter | number
+    qty?: IntFilter | number
+    price?: FloatFilter | number
+  }
+
+  export type billsCreateWithoutBill_itemsInput = {
+    date: Date | string
+    customer: customersCreateNestedOneWithoutBillsInput
+  }
+
+  export type billsUncheckedCreateWithoutBill_itemsInput = {
+    id?: number
+    customerId: number
+    date: Date | string
+  }
+
+  export type billsCreateOrConnectWithoutBill_itemsInput = {
+    where: billsWhereUniqueInput
+    create: XOR<billsCreateWithoutBill_itemsInput, billsUncheckedCreateWithoutBill_itemsInput>
+  }
+
+  export type productsCreateWithoutBill_itemsInput = {
+    product_name: string
+    qty: number
+  }
+
+  export type productsUncheckedCreateWithoutBill_itemsInput = {
+    id?: number
+    product_name: string
+    qty: number
+  }
+
+  export type productsCreateOrConnectWithoutBill_itemsInput = {
+    where: productsWhereUniqueInput
+    create: XOR<productsCreateWithoutBill_itemsInput, productsUncheckedCreateWithoutBill_itemsInput>
+  }
+
+  export type billsUpsertWithoutBill_itemsInput = {
+    update: XOR<billsUpdateWithoutBill_itemsInput, billsUncheckedUpdateWithoutBill_itemsInput>
+    create: XOR<billsCreateWithoutBill_itemsInput, billsUncheckedCreateWithoutBill_itemsInput>
+  }
+
+  export type billsUpdateWithoutBill_itemsInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: customersUpdateOneRequiredWithoutBillsNestedInput
+  }
+
+  export type billsUncheckedUpdateWithoutBill_itemsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    customerId?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type productsUpsertWithoutBill_itemsInput = {
+    update: XOR<productsUpdateWithoutBill_itemsInput, productsUncheckedUpdateWithoutBill_itemsInput>
+    create: XOR<productsCreateWithoutBill_itemsInput, productsUncheckedCreateWithoutBill_itemsInput>
+  }
+
+  export type productsUpdateWithoutBill_itemsInput = {
+    product_name?: StringFieldUpdateOperationsInput | string
+    qty?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type productsUncheckedUpdateWithoutBill_itemsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    product_name?: StringFieldUpdateOperationsInput | string
+    qty?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type bill_itemsCreateWithoutProductInput = {
+    qty: number
+    price: number
+    bill: billsCreateNestedOneWithoutBill_itemsInput
+  }
+
+  export type bill_itemsUncheckedCreateWithoutProductInput = {
+    id?: number
+    billId: number
+    qty: number
+    price: number
+  }
+
+  export type bill_itemsCreateOrConnectWithoutProductInput = {
+    where: bill_itemsWhereUniqueInput
+    create: XOR<bill_itemsCreateWithoutProductInput, bill_itemsUncheckedCreateWithoutProductInput>
+  }
+
+  export type bill_itemsUpsertWithWhereUniqueWithoutProductInput = {
+    where: bill_itemsWhereUniqueInput
+    update: XOR<bill_itemsUpdateWithoutProductInput, bill_itemsUncheckedUpdateWithoutProductInput>
+    create: XOR<bill_itemsCreateWithoutProductInput, bill_itemsUncheckedCreateWithoutProductInput>
+  }
+
+  export type bill_itemsUpdateWithWhereUniqueWithoutProductInput = {
+    where: bill_itemsWhereUniqueInput
+    data: XOR<bill_itemsUpdateWithoutProductInput, bill_itemsUncheckedUpdateWithoutProductInput>
+  }
+
+  export type bill_itemsUpdateManyWithWhereWithoutProductInput = {
+    where: bill_itemsScalarWhereInput
+    data: XOR<bill_itemsUpdateManyMutationInput, bill_itemsUncheckedUpdateManyWithoutBill_itemsInput>
+  }
+
+  export type billsCreateWithoutCustomerInput = {
+    date: Date | string
+    bill_items?: bill_itemsCreateNestedManyWithoutBillInput
+  }
+
+  export type billsUncheckedCreateWithoutCustomerInput = {
+    id?: number
+    date: Date | string
+    bill_items?: bill_itemsUncheckedCreateNestedManyWithoutBillInput
+  }
+
+  export type billsCreateOrConnectWithoutCustomerInput = {
+    where: billsWhereUniqueInput
+    create: XOR<billsCreateWithoutCustomerInput, billsUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type billsUpsertWithWhereUniqueWithoutCustomerInput = {
+    where: billsWhereUniqueInput
+    update: XOR<billsUpdateWithoutCustomerInput, billsUncheckedUpdateWithoutCustomerInput>
+    create: XOR<billsCreateWithoutCustomerInput, billsUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type billsUpdateWithWhereUniqueWithoutCustomerInput = {
+    where: billsWhereUniqueInput
+    data: XOR<billsUpdateWithoutCustomerInput, billsUncheckedUpdateWithoutCustomerInput>
+  }
+
+  export type billsUpdateManyWithWhereWithoutCustomerInput = {
+    where: billsScalarWhereInput
+    data: XOR<billsUpdateManyMutationInput, billsUncheckedUpdateManyWithoutBillsInput>
+  }
+
+  export type billsScalarWhereInput = {
+    AND?: Enumerable<billsScalarWhereInput>
+    OR?: Enumerable<billsScalarWhereInput>
+    NOT?: Enumerable<billsScalarWhereInput>
+    id?: IntFilter | number
+    customerId?: IntFilter | number
+    date?: DateTimeFilter | Date | string
+  }
+
+  export type bill_itemsUpdateWithoutBillInput = {
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    product?: productsUpdateOneRequiredWithoutBill_itemsNestedInput
+  }
+
+  export type bill_itemsUncheckedUpdateWithoutBillInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    productId?: IntFieldUpdateOperationsInput | number
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type bill_itemsUncheckedUpdateManyWithoutBill_itemsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    productId?: IntFieldUpdateOperationsInput | number
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type bill_itemsUpdateWithoutProductInput = {
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    bill?: billsUpdateOneRequiredWithoutBill_itemsNestedInput
+  }
+
+  export type bill_itemsUncheckedUpdateWithoutProductInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    billId?: IntFieldUpdateOperationsInput | number
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type billsUpdateWithoutCustomerInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    bill_items?: bill_itemsUpdateManyWithoutBillNestedInput
+  }
+
+  export type billsUncheckedUpdateWithoutCustomerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    bill_items?: bill_itemsUncheckedUpdateManyWithoutBillNestedInput
+  }
+
+  export type billsUncheckedUpdateManyWithoutBillsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
