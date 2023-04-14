@@ -3,15 +3,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model products {
-  id            Int    @id @default(autoincrement())
-  product_name  String
-  qty           Int
-  product_price Float
-}
-
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["darwin-arm64", "windows", "debian-openssl-1.1.x"]
   output        = "./resources"
+}
+
+model bills {
+  id         Int          @id @default(autoincrement())
+  customer   customers    @relation(fields: [customerId], references: [id])
+  customerId Int
+  date       DateTime
+  bill_items bill_items[]
+}
+
+model bill_items {
+  id        Int      @id @default(autoincrement())
+  bill      bills    @relation(fields: [billId], references: [id])
+  billId    Int
+  product   products @relation(fields: [productId], references: [id])
+  productId Int
+  qty       Int
+  price     Float
+}
+
+model products {
+  id           Int          @id @default(autoincrement())
+  product_name String
+  qty          Int
+  bill_items   bill_items[]
+}
+
+model customers {
+  id           Int     @id @default(autoincrement())
+  name         String
+  city         String
+  mobileNumber String
+  bills        bills[]
 }
