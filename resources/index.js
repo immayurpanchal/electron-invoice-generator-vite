@@ -139,6 +139,14 @@ const config = {
       {
         "fromEnvVar": null,
         "value": "darwin-arm64"
+      },
+      {
+        "fromEnvVar": null,
+        "value": "windows"
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-1.1.x"
       }
     ],
     "previewFeatures": [],
@@ -177,5 +185,11 @@ Object.assign(exports, Prisma)
 
 path.join(__dirname, "libquery_engine-darwin-arm64.dylib.node");
 path.join(process.cwd(), "resources/libquery_engine-darwin-arm64.dylib.node")
+
+path.join(__dirname, "query_engine-windows.dll.node");
+path.join(process.cwd(), "resources/query_engine-windows.dll.node")
+
+path.join(__dirname, "libquery_engine-debian-openssl-1.1.x.so.node");
+path.join(process.cwd(), "resources/libquery_engine-debian-openssl-1.1.x.so.node")
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "resources/schema.prisma")
