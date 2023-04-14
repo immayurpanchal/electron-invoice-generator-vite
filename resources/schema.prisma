@@ -12,6 +12,6 @@ model products {
 
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["native"]
+  binaryTargets = ["darwin-arm64", "windows", "debian-openssl-1.1.x"]
   output        = "./resources"
 }

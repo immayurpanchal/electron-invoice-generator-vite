@@ -79,3 +79,8 @@ export default {
 
 - [dependencies vs devDependencies](https://github.com/electron-vite/vite-plugin-electron-renderer#dependencies-vs-devdependencies)
 - [C/C++ addons, Node.js modules - Pre-Bundling](https://github.com/electron-vite/vite-plugin-electron-renderer#dependency-pre-bundling)
+
+## Prisma Guide for Production Build 
+1. npx prisma generate (run only if the command is never executed)
+2. npx prisma migrate (run every time if you change anything in DB schema)
+3. npm run build

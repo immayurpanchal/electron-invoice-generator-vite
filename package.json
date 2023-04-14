@@ -1,5 +1,6 @@
 {
   "name": "electron-invoice-generator-vite",
+  "homepage": "https://immayurpanchal.vercel.app",
   "version": "2.1.0",
   "main": "dist-electron/main/index.js",
   "description": "Electron Vite React boilerplate.",
@@ -14,7 +15,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && echo 'Build has been generated 🔥🔥🔥🔥' && electron-builder",
-    "build:test": "electron-builder -m ",
+    "build:windows": "electron-builder -w",
+    "build:mac": "electron-builder -m",
+    "build:linux": "electron-builder -l",
     "preview": "vite preview",
     "pree2e": "vite build --mode=test",
     "e2e": "playwright test",
