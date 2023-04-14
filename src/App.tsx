@@ -1,10 +1,11 @@
-import React, { useMemo, useState } from 'react'
-import { createHashRouter, RouterProvider } from 'react-router-dom'
-import './App.scss'
 import SalesPrint from '@/components/SalesPrint/SalesPrint'
+import { StyleProvider } from '@ant-design/cssinjs'
+import React, { useMemo, useState } from 'react'
+import { RouterProvider, createHashRouter } from 'react-router-dom'
+import './App.scss'
 import SalesTable, {
   BillTableProduct,
-} from './components/SalesTable/SalesTable'
+} from '@/components/SalesTable/SalesTable'
 
 export const BillContext = React.createContext<BillContextType>({
   billValue: [],
@@ -35,7 +36,9 @@ const App = () => {
 
   return (
     <BillContext.Provider value={memoizedValue}>
-      <RouterProvider router={router} />
+      <StyleProvider hashPriority='high'>
+        <RouterProvider router={router} />
+      </StyleProvider>
     </BillContext.Provider>
   )
 }
