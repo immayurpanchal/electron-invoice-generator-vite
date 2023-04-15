@@ -3,6 +3,7 @@ import { appendFile } from 'node:fs'
 import { homedir, platform, release } from 'node:os'
 import { join } from 'node:path'
 import '../backend/api/products'
+import '../backend/api/customers'
 import { prisma } from '../backend/api/shared/prismaClient'
 import { update } from './update'
 
