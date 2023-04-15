@@ -13,6 +13,12 @@ interface Product {
   qty: number
 }
 
+interface Customer {
+  id: number
+  name: string
+  city: string
+  mobileNumber: string
+}
 interface EmptyRow {
   key: string
 }
@@ -34,7 +40,11 @@ export const getDummyRow = (): EmptyRow => {
 }
 
 const SalesInvoice: React.FC = () => {
-  const { data: apiData } = useIpcApi<Product[]>('getProducts')
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
+    null
+  )
+  const { data: productData } = useIpcApi<Product[]>('getProducts')
+  const { data: customerData } = useIpcApi<Customer[]>('getCustomers')
   const navigate = useNavigate()
   const { setBillValue } = useContext<BillContextType>(BillContext)
   const [dataSource, setDataSource] = useState<(EmptyRow | BillTableProduct)[]>(
@@ -45,11 +55,19 @@ const SalesInvoice: React.FC = () => {
     setDataSource([getDummyRow(), getDummyRow()])
   }, [])
 
-  const getAutoCompleteOptions = (): AutoCompleteProductOption[] => {
-    if (!apiData) return []
-    return apiData.map((product: Product) => ({
+  const getProductAutoCompleteOptions = (): AutoCompleteProductOption[] => {
+    if (!productData) return []
+    return productData.map((product: Product) => ({
       value: product.product_name,
       product,
+    }))
+  }
+
+  const getCustomerAutoCompleteOptions = () => {
+    if (!customerData) return []
+    return customerData.map((customer: Customer) => ({
+      value: customer.name,
+      customer,
     }))
   }
 
@@ -91,7 +109,7 @@ const SalesInvoice: React.FC = () => {
           <AutoComplete
             defaultActiveFirstOption
             style={{ width: '100%' }}
-            options={getAutoCompleteOptions()}
+            options={getProductAutoCompleteOptions()}
             filterOption={(inputValue, option) => {
               return option?.value
                 ?.toLowerCase()
@@ -196,7 +214,22 @@ const SalesInvoice: React.FC = () => {
             <span>M/s</span>
           </Col>
           <Col span={16}>
-            <span>Hansaben Soni</span>
+            <AutoComplete
+              defaultActiveFirstOption
+              style={{ width: '100%' }}
+              onChange={() => setSelectedCustomer(null)}
+              options={getCustomerAutoCompleteOptions()}
+              filterOption={(inputValue, option) => {
+                return option?.value
+                  ?.toLowerCase()
+                  .includes(inputValue.toLowerCase()) as boolean
+              }}
+              onSelect={(_value, option) => {
+                const { customer } = option
+                setSelectedCustomer(customer)
+              }}
+              placeholder='Search Customer'
+            />
           </Col>
           <Col span={2} className='font-bold'>
             <span>Bill No</span>
@@ -210,7 +243,7 @@ const SalesInvoice: React.FC = () => {
             <span>City</span>
           </Col>
           <Col span={16}>
-            <span>IDAR</span>
+            <span>{selectedCustomer?.city}</span>
           </Col>
           <Col span={2} className='font-bold'>
             <span>Date</span>
