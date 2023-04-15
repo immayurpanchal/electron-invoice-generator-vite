@@ -1,6 +1,6 @@
 import { BillContext, BillContextType } from '@/App'
 import { useIpcApi } from '@/hooks/useIpcApi'
-import { AutoComplete, Button, Input, InputNumber, Table } from 'antd'
+import { AutoComplete, Col, Input, InputNumber, Row, Table } from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import { nanoid } from 'nanoid'
 import { useContext, useEffect, useState } from 'react'
@@ -11,32 +11,35 @@ interface Product {
   id: number
   product_name: string
   qty: number
-  product_price: number
 }
 
-interface BillTable {
-  key: number | string
+interface EmptyRow {
+  key: string
+}
+
+interface BillProduct extends Product {
+  product_price: number
   bill_price: number
 }
 
-export interface BillTableProduct extends BillTable, Product {}
+export interface BillTableProduct extends EmptyRow, BillProduct {}
 
 interface AutoCompleteProductOption {
   value: string
   product: Product
 }
 
-export const getDummyRow = (): BillTable => {
-  return { key: nanoid(), bill_price: 0 }
+export const getDummyRow = (): EmptyRow => {
+  return { key: nanoid() }
 }
 
 const SalesInvoice: React.FC = () => {
   const { data: apiData } = useIpcApi<Product[]>('getProducts')
   const navigate = useNavigate()
   const { setBillValue } = useContext<BillContextType>(BillContext)
-  const [dataSource, setDataSource] = useState<
-    (BillTable | (BillTable & Product))[]
-  >([])
+  const [dataSource, setDataSource] = useState<(EmptyRow | BillTableProduct)[]>(
+    []
+  )
 
   useEffect(() => {
     setDataSource([getDummyRow(), getDummyRow()])
@@ -55,18 +58,16 @@ const SalesInvoice: React.FC = () => {
     selectedProduct: Product,
     index: number
   ) => {
-    const { id, product_name, product_price, qty } = selectedProduct
+    const { id, product_name } = selectedProduct
 
     const updatedDataSource = dataSource.map(
-      (item, dsIndex): BillTableProduct | BillTable => {
+      (item, dsIndex): EmptyRow | BillTableProduct => {
         if (dsIndex === index) {
           return {
             ...item,
             id,
             product_name,
             qty: 1,
-            bill_price: product_price,
-            product_price,
           }
         }
         return item
@@ -76,10 +77,10 @@ const SalesInvoice: React.FC = () => {
   }
 
   // The type is for single column object type of dataSource[]
-  const columns: ColumnsType<BillTable | (BillTable & Product)> = [
+  const columns: ColumnsType<EmptyRow | BillTableProduct> = [
     {
       title: 'Sr.No.',
-      render: (_: any, __: any, index: number) => index + 1,
+      render: (_value, _record, index: number) => index + 1,
     },
     {
       title: 'Product Name',
@@ -111,24 +112,17 @@ const SalesInvoice: React.FC = () => {
       render: (_value, record, index) => {
         return (
           <InputNumber
-            disabled={!record.bill_price}
             defaultValue={1}
             min={1}
-            onBlur={() => {
-              if (index === dataSource.length - 2) {
-                setDataSource([...dataSource, getDummyRow()])
-              }
-            }}
             onChange={(currentQty: number | null) => {
               if (!currentQty) return
               const updatedDataSource = dataSource.map((currItem, dsIndex) => {
                 if (index === dsIndex) {
+                  const { product_price = 0 } = currItem as BillProduct
                   return {
                     ...currItem,
                     qty: currentQty,
-                    bill_price: +(
-                      currentQty * (currItem as BillTableProduct).product_price
-                    ).toFixed(2),
+                    bill_price: +(+currentQty * +product_price).toFixed(2),
                   }
                 }
                 return currItem
@@ -142,6 +136,39 @@ const SalesInvoice: React.FC = () => {
     },
     {
       title: 'Price',
+      dataIndex: 'price',
+      render: (_value, _record, index) => {
+        return (
+          <InputNumber
+            defaultValue={0}
+            min={0}
+            onBlur={() => {
+              if (index === dataSource.length - 2) {
+                setDataSource([...dataSource, getDummyRow()])
+              }
+            }}
+            onChange={(currentPrice: number | null) => {
+              if (!currentPrice) return
+              const updatedDataSource = dataSource.map((currItem, dsIndex) => {
+                if (index === dsIndex) {
+                  const { qty = 1 } = currItem as BillProduct
+                  return {
+                    ...currItem,
+                    product_price: +currentPrice,
+                    bill_price: +(+qty * +currentPrice).toFixed(2),
+                  }
+                }
+                return currItem
+              })
+
+              setDataSource(updatedDataSource)
+            }}
+          />
+        )
+      },
+    },
+    {
+      title: 'Net Amount',
       dataIndex: 'bill_price',
       render: (value: number = 0) => {
         return <Input type='number' value={value} disabled />
@@ -150,30 +177,63 @@ const SalesInvoice: React.FC = () => {
   ]
 
   const handleSaveAndPrint = () => {
-    const formattedBillData = dataSource.map((item) => {
-      const { bill_price, product_name, product_price, qty, id, key } =
-        item as BillTableProduct
-      return {
-        product_name,
-        product_price,
-        qty,
-        id,
-        bill_price,
-        key,
-      }
-    })
-    setBillValue(formattedBillData)
-    navigate('/sales-print')
+    const isBillTableProduct = (
+      item: EmptyRow | BillTableProduct
+    ): item is BillTableProduct => {
+      return (item as BillTableProduct).product_name !== undefined
+    }
+
+    const filteredDataSource = dataSource.filter(isBillTableProduct)
+    setBillValue(filteredDataSource as BillTableProduct[])
+    navigate('/sales_print')
   }
 
   return (
-    <Table
-      columns={columns}
-      dataSource={dataSource}
-      pagination={false}
-      scroll={{ y: 600 }}
-      footer={() => <TableFooter handleSaveAndPrint={handleSaveAndPrint} />}
-    />
+    <Row justify='center'>
+      <Col span={20}>
+        <Row>
+          <Col span={2} className='font-bold'>
+            <span>M/s</span>
+          </Col>
+          <Col span={16}>
+            <span>Hansaben Soni</span>
+          </Col>
+          <Col span={2} className='font-bold'>
+            <span>Bill No</span>
+          </Col>
+          <Col span={4}>
+            <span>10456755666</span>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={2} className='font-bold'>
+            <span>City</span>
+          </Col>
+          <Col span={16}>
+            <span>IDAR</span>
+          </Col>
+          <Col span={2} className='font-bold'>
+            <span>Date</span>
+          </Col>
+          <Col span={4}>
+            <span>10/07/2019</span>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Table
+              columns={columns}
+              dataSource={dataSource}
+              pagination={false}
+              scroll={{ y: 600 }}
+              footer={() => (
+                <TableFooter handleSaveAndPrint={handleSaveAndPrint} />
+              )}
+            />
+          </Col>
+        </Row>
+      </Col>
+    </Row>
   )
 }
 
