@@ -4,9 +4,10 @@ import { prisma } from './shared/prismaClient'
 ipcMain.handle('getProducts', async () => {
   try {
     const products = await prisma.products.findMany()
-    return products
+    return { data: products, error: null }
   } catch (err) {
     console.error(err)
+    return { data: null, error: err }
   }
 })
 
@@ -18,10 +19,10 @@ ipcMain.handle('addProduct', async (_event, args) => {
         qty: args.productQty,
       },
     })
-    return product
+    return { data: product, error: null }
   } catch (err) {
     console.error(err)
-    return err
+    return { data: null, error: err }
   }
 })
 
@@ -31,6 +32,6 @@ ipcMain.handle('deleteAllProducts', async () => {
     return { data: count, error: null }
   } catch (err) {
     console.error(err)
-    return { data: {}, error: err }
+    return { data: null, error: err }
   }
 })
