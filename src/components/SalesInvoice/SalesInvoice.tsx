@@ -30,7 +30,7 @@ export const getDummyRow = (): BillTable => {
   return { key: nanoid(), bill_price: 0 }
 }
 
-const SalesTable: React.FC = () => {
+const SalesInvoice: React.FC = () => {
   const { data: apiData } = useIpcApi<Product[]>('getProducts')
   const navigate = useNavigate()
   const { setBillValue } = useContext<BillContextType>(BillContext)
@@ -177,4 +177,4 @@ const SalesTable: React.FC = () => {
   )
 }
 
-export default SalesTable
+export default SalesInvoice

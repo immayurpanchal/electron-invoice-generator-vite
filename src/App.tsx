@@ -1,7 +1,7 @@
 import SalesPrint from '@/components/SalesPrint/SalesPrint'
-import SalesTable, {
+import SalesInvoice, {
   BillTableProduct,
-} from '@/components/SalesTable/SalesTable'
+} from '@/components/SalesInvoice/SalesInvoice'
 import { StyleProvider } from '@ant-design/cssinjs'
 import React, { useMemo, useState } from 'react'
 import { RouterProvider, createHashRouter } from 'react-router-dom'
@@ -26,7 +26,7 @@ const router = createHashRouter([
     children: [
       {
         path: '/sales_invoice',
-        element: <SalesTable />,
+        element: <SalesInvoice />,
       },
       {
         path: '/sales_print',
