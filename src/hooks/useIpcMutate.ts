@@ -4,7 +4,7 @@ import { useState } from 'react'
 export const useIpcMutate = (channel: string) => {
   const [data, setData] = useState(null)
   const [error, setError] = useState<Error | null>(null)
-  const mutate = async (data: any) => {
+  const mutate = async (data?: any) => {
     try {
       const response = await ipcRenderer.invoke(channel, data)
       setData(response)
