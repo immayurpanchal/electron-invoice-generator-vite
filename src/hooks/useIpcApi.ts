@@ -15,7 +15,7 @@ export const useIpcApi = <T>(channel: string, args?: any): IPCResponse<T> => {
   useEffect(() => {
     setIsLoading(true)
     ipcRenderer.invoke(channel, args).then(
-      (response: T) => {
+      ({ data: response }: { data: T }) => {
         setData(response)
         setIsLoading(false)
       },
