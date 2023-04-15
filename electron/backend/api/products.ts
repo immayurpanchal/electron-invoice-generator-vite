@@ -24,3 +24,13 @@ ipcMain.handle('addProduct', async (_event, args) => {
     return err
   }
 })
+
+ipcMain.handle('deleteAllProducts', async () => {
+  try {
+    const { count } = await prisma.products.deleteMany({})
+    return { data: count, error: null }
+  } catch (err) {
+    console.error(err)
+    return { data: {}, error: err }
+  }
+})
