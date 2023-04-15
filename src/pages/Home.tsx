@@ -1,5 +1,6 @@
 import { Menu } from 'antd'
 import { Outlet, useNavigate } from 'react-router-dom'
+import type { MenuClickEventHandler } from 'node_modules/rc-menu/lib/interface'
 
 const menuItems = [
   {
@@ -21,7 +22,7 @@ const menuItems = [
 
 const Home = () => {
   const navigate = useNavigate()
-  const handleClick = (e) => {
+  const handleClick: MenuClickEventHandler = (e) => {
     navigate(`/${e.key}`)
   }
 
