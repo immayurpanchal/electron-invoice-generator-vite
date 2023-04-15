@@ -26,11 +26,11 @@ const router = createHashRouter([
     children: [
       {
         path: '/sales_invoice',
-        element: <SalesPrint />,
+        element: <SalesTable />,
       },
       {
-        path: '/sales-table',
-        element: <SalesTable />,
+        path: '/sales_print',
+        element: <SalesPrint />,
       },
       {
         path: 'add_product',
