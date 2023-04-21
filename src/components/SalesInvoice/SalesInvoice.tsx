@@ -5,31 +5,14 @@ import { ColumnsType } from 'antd/es/table'
 import { nanoid } from 'nanoid'
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import type {
+  BillProduct,
+  BillTableProduct,
+  Customer,
+  EmptyRow,
+  Product,
+} from '../../../types/shared'
 import TableFooter from '../TableFooter/TableFooter'
-
-interface Product {
-  id: number
-  product_name: string
-  qty: number
-}
-
-interface Customer {
-  id: number
-  name: string
-  city: string
-  mobileNumber: string
-}
-interface EmptyRow {
-  key: string
-}
-
-interface BillProduct extends Product {
-  product_price: number
-  bill_price: number
-}
-
-export interface BillTableProduct extends EmptyRow, BillProduct {}
-
 interface AutoCompleteProductOption {
   value: string
   product: Product
