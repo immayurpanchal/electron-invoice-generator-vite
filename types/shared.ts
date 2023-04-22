@@ -1,3 +1,5 @@
+import { Dayjs } from 'dayjs'
+
 export interface Product {
   id: number
   product_name: string
@@ -20,3 +22,14 @@ export interface BillProduct extends Product {
 }
 
 export interface BillTableProduct extends EmptyRow, BillProduct {}
+
+export interface CustomerBill {
+  customerId: number
+  billProducts: BillProduct[]
+  date: Dayjs
+}
+
+export interface BillContextType {
+  currentBill: CustomerBill
+  setCurrentBill: React.Dispatch<React.SetStateAction<CustomerBill>>
+}
