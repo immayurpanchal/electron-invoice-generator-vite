@@ -4,6 +4,7 @@ import { homedir, platform, release } from 'node:os'
 import { join } from 'node:path'
 import '../backend/api/products'
 import '../backend/api/customers'
+import '../backend/api/bills'
 import { prisma } from '../backend/api/shared/prismaClient'
 import { update } from './update'
 
