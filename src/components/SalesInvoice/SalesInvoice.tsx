@@ -1,11 +1,23 @@
-import { BillContext, BillContextType } from '@/App'
+import { BillContext } from '@/App'
 import { useIpcApi } from '@/hooks/useIpcApi'
-import { AutoComplete, Col, Input, InputNumber, Row, Table } from 'antd'
+import { useIpcMutate } from '@/hooks/useIpcMutate'
+import {
+  AutoComplete,
+  Col,
+  DatePicker,
+  DatePickerProps,
+  Input,
+  InputNumber,
+  Row,
+  Table,
+} from 'antd'
 import { ColumnsType } from 'antd/es/table'
+import dayjs from 'dayjs'
 import { nanoid } from 'nanoid'
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type {
+  BillContextType,
   BillProduct,
   BillTableProduct,
   Customer,
@@ -22,14 +34,21 @@ export const getDummyRow = (): EmptyRow => {
   return { key: nanoid() }
 }
 
+export const DATE_FORMAT = 'DD/MM/YYYY'
+
 const SalesInvoice: React.FC = () => {
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
     null
   )
+  const [selectedDate, setSelectedDate] = useState(dayjs())
   const { data: productData } = useIpcApi<Product[]>('getProducts')
   const { data: customerData } = useIpcApi<Customer[]>('getCustomers')
+  const { data: billNo } = useIpcApi<number>('getBillNo')
+  const { mutate: createBill } = useIpcMutate('createBill')
+
   const navigate = useNavigate()
-  const { setBillValue } = useContext<BillContextType>(BillContext)
+  const billContext = useContext<BillContextType | null>(BillContext)
+  const { setCurrentBill } = billContext as BillContextType
   const [dataSource, setDataSource] = useState<(EmptyRow | BillTableProduct)[]>(
     []
   )
@@ -38,6 +57,9 @@ const SalesInvoice: React.FC = () => {
     setDataSource([getDummyRow(), getDummyRow()])
   }, [])
 
+  const onDateChange: DatePickerProps['onChange'] = (value) => {
+    setSelectedDate(dayjs(value))
+  }
   const getProductAutoCompleteOptions = (): AutoCompleteProductOption[] => {
     if (!productData) return []
     return productData.map((product: Product) => ({
@@ -184,8 +206,21 @@ const SalesInvoice: React.FC = () => {
       return (item as BillTableProduct).product_name !== undefined
     }
 
-    const filteredDataSource = dataSource.filter(isBillTableProduct)
-    setBillValue(filteredDataSource as BillTableProduct[])
+    const filteredDataSource = dataSource.filter(
+      isBillTableProduct
+    ) as BillProduct[]
+
+    setCurrentBill({
+      billProducts: filteredDataSource,
+      customerId: selectedCustomer?.id || 0,
+      date: selectedDate,
+    })
+
+    createBill({
+      customerId: selectedCustomer?.id || 0,
+      billProducts: filteredDataSource,
+      date: selectedDate.format(),
+    })
     navigate('/sales_print')
   }
 
@@ -218,7 +253,7 @@ const SalesInvoice: React.FC = () => {
             <span>Bill No</span>
           </Col>
           <Col span={4}>
-            <span>10456755666</span>
+            <span>{billNo}</span>
           </Col>
         </Row>
         <Row>
@@ -232,7 +267,12 @@ const SalesInvoice: React.FC = () => {
             <span>Date</span>
           </Col>
           <Col span={4}>
-            <span>10/07/2019</span>
+            <DatePicker
+              format={DATE_FORMAT}
+              defaultValue={dayjs()}
+              value={selectedDate}
+              onChange={onDateChange}
+            />
           </Col>
         </Row>
         <Row>
