@@ -1,23 +1,22 @@
+import SalesInvoice from '@/components/SalesInvoice/SalesInvoice'
 import SalesPrint from '@/components/SalesPrint/SalesPrint'
-import SalesInvoice, {
-  BillTableProduct,
-} from '@/components/SalesInvoice/SalesInvoice'
 import { StyleProvider } from '@ant-design/cssinjs'
+import dayjs from 'dayjs'
 import React, { useMemo, useState } from 'react'
 import { RouterProvider, createHashRouter } from 'react-router-dom'
+import { BillContextType, CustomerBill } from 'types/shared'
 import './App.scss'
-import AddCustomer from './pages/AddCustomer'
-import AddProduct from './pages/AddProduct'
-import Home from './pages/Home'
+import AddCustomer from '@/pages/AddCustomer'
+import AddProduct from '@/pages/AddProduct'
+import Home from '@/pages/Home'
 
-export const BillContext = React.createContext<BillContextType>({
-  billValue: [],
-  setBillValue: () => {},
-})
-export interface BillContextType {
-  billValue: BillTableProduct[]
-  setBillValue: React.Dispatch<React.SetStateAction<BillTableProduct[]>>
+const initialValue: CustomerBill = {
+  billProducts: [],
+  customerId: 0,
+  date: dayjs(),
 }
+
+export const BillContext = React.createContext<BillContextType | null>(null)
 
 const router = createHashRouter([
   {
@@ -45,10 +44,11 @@ const router = createHashRouter([
 ])
 
 const App = () => {
-  const [billValue, setBillValue] = useState<BillTableProduct[]>([])
+  const [currentBill, setCurrentBill] = useState<CustomerBill>(initialValue)
+
   const memoizedValue = useMemo(
-    () => ({ billValue, setBillValue }),
-    [billValue, setBillValue]
+    () => ({ currentBill, setCurrentBill }),
+    [currentBill, setCurrentBill]
   )
 
   return (
