@@ -12,5 +12,17 @@
   ],
   "cSpell.words": [
     "datasources"
+  ],
+  "eslint.probe": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue"
+  ],
+  "conventionalCommits.scopes": [
+    "be",
+    "fe",
+    "config"
   ]
 }
