@@ -1,14 +1,13 @@
 import SalesInvoice from '@/components/SalesInvoice/SalesInvoice'
 import SalesPrint from '@/components/SalesPrint/SalesPrint'
-import { StyleProvider } from '@ant-design/cssinjs'
-import dayjs from 'dayjs'
-import React, { useMemo, useState } from 'react'
-import { RouterProvider, createHashRouter } from 'react-router-dom'
-import { BillContextType, CustomerBill } from 'types/shared'
-import './App.scss'
 import AddCustomer from '@/pages/AddCustomer'
 import AddProduct from '@/pages/AddProduct'
 import Home from '@/pages/Home'
+import dayjs from 'dayjs'
+import React, { useMemo, useState } from 'react'
+import { RouterProvider, createHashRouter } from 'react-router-dom'
+import './App.scss'
+import { BillContextType, CustomerBill } from './types/shared'
 
 const initialValue: CustomerBill = {
   billProducts: [],
@@ -53,9 +52,7 @@ const App = () => {
 
   return (
     <BillContext.Provider value={memoizedValue}>
-      <StyleProvider hashPriority='high'>
-        <RouterProvider router={router} />
-      </StyleProvider>
+      <RouterProvider router={router} />
     </BillContext.Provider>
   )
 }
