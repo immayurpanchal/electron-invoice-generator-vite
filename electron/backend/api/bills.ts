@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron'
 import { prisma } from './shared/prismaClient'
-import type { BillTableProduct } from '../../../types/shared'
+import type { BillTableProduct } from '../../../src/types/shared'
 
 interface SaveBillArgsType {
   customerId: number
