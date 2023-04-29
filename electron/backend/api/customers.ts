@@ -4,8 +4,21 @@ import { prisma } from './shared/prismaClient'
 ipcMain.handle('getCustomers', async () => {
   try {
     const customers = await prisma.customers.findMany()
-    console.log(customers)
     return { data: customers, error: null }
+  } catch (err) {
+    console.error(err)
+    return { data: null, err }
+  }
+})
+
+ipcMain.handle('getCustomerDetail', async (_event, customerId) => {
+  try {
+    const customer = await prisma.customers.findUnique({
+      where: {
+        id: customerId,
+      },
+    })
+    return { data: customer, error: null }
   } catch (err) {
     console.error(err)
     return { data: null, err }
